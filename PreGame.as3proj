@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project version="2">
+  <!-- Output SWF options -->
+  <output>
+    <movie outputType="Application" />
+    <movie input="" />
+    <movie path="bin\Greeble.swf" />
+    <movie fps="30" />
+    <movie width="800" />
+    <movie height="600" />
+    <movie version="10" />
+    <movie minorVersion="0" />
+    <movie platform="Flash Player" />
+    <movie background="#FFFFFF" />
+  </output>
+  <!-- Other classes to be compiled into your SWF -->
+  <classpaths>
+    <class path="src" />
+    <class path="..\..\..\..\Program Files (x86)\Adobe\Adobe Flash CS5.5\Common\First Run\Classes" />
+    <class path="..\..\..\..\Program Files (x86)\Adobe\Adobe Flash CS5.5\Common\First Run\Component Source\ActionScript3.0\Flex\mx\flash" />
+    <class path="lib" />
+  </classpaths>
+  <!-- Build options -->
+  <build>
+    <option accessible="False" />
+    <option allowSourcePathOverlap="False" />
+    <option benchmark="False" />
+    <option es="False" />
+    <option locale="" />
+    <option loadConfig="" />
+    <option optimize="True" />
+    <option omitTraces="True" />
+    <option showActionScriptWarnings="True" />
+    <option showBindingWarnings="True" />
+    <option showInvalidCSS="True" />
+    <option showDeprecationWarnings="True" />
+    <option showUnusedTypeSelectorWarnings="True" />
+    <option strict="True" />
+    <option useNetwork="True" />
+    <option useResourceBundleMetadata="True" />
+    <option warnings="True" />
+    <option verboseStackTraces="False" />
+    <option linkReport="" />
+    <option loadExterns="" />
+    <option staticLinkRSL="True" />
+    <option additional="" />
+    <option compilerConstants="" />
+    <option minorVersion="" />
+  </build>
+  <!-- SWC Include Libraries -->
+  <includeLibraries>
+    <!-- example: <element path="..." /> -->
+  </includeLibraries>
+  <!-- SWC Libraries -->
+  <libraryPaths>
+    <!-- example: <element path="..." /> -->
+  </libraryPaths>
+  <!-- External Libraries -->
+  <externalLibraryPaths>
+    <!-- example: <element path="..." /> -->
+  </externalLibraryPaths>
+  <!-- Runtime Shared Libraries -->
+  <rslPaths>
+    <!-- example: <element path="..." /> -->
+  </rslPaths>
+  <!-- Intrinsic Libraries -->
+  <intrinsics>
+    <element path="C:\Program Files (x86)\Adobe\Adobe Flash CS5.5\Common\First Run\Classes\mx\effects" />
+  </intrinsics>
+  <!-- Assets to embed into the output SWF -->
+  <library>
+    <asset path="src\soil-endeavour-rim.jpg" />
+    <asset path="src\star-scroller-test.jpg" />
+    <asset path="src\nyan.gif" />
+    <asset path="bin\nyanmov.swf" />
+    <asset path="src\smiling_head.gif" />
+    <asset path="src\laser_head.gif" />
+    <asset path="src\greenBox.gif" />
+    <asset path="src\greenLine.gif" />
+    <asset path="src\homeLine.gif" />
+    <asset path="src\redBox.gif" />
+    <asset path="src\redLine.gif" />
+    <asset path="src\blueBox.gif" />
+    <asset path="src\blueLine.gif" />
+    <asset path="src\universeMap.jpg" />
+    <asset path="src\whiteBox.gif" />
+    <asset path="src\up_arrow.gif" />
+    <asset path="src\scientist.gif" />
+    <asset path="src\static.gif" />
+    <asset path="src\commBox.gif" />
+    <asset path="src\greeble_planet_surface.gif" />
+    <asset path="src\greeble_plsurf_fix.gif" />
+    <asset path="src\spaceShip.gif" />
+    <asset path="src\spaceShip_lzr.gif" />
+    <asset path="src\fuelWindow.gif" />
+    <asset path="src\bl_bl_grb.gif" />
+    <asset path="src\bl_brwn_grb.gif" />
+    <asset path="src\bl_grb.gif" />
+    <asset path="src\bl_grn_grb.gif" />
+    <asset path="src\bl_orng_grb.gif" />
+    <asset path="src\bl_rd_grb.gif" />
+    <asset path="src\bl_yllw_grb.gif" />
+    <asset path="src\brwn_grb.gif" />
+    <asset path="src\grn_bl_grb.gif" />
+    <asset path="src\grn_brwn_grb.gif" />
+    <asset path="src\grn_grb.gif" />
+    <asset path="src\grn_grn_grb.gif" />
+    <asset path="src\grn_orng_grb.gif" />
+    <asset path="src\grn_rd_grb.gif" />
+    <asset path="src\grn_yllw_grb.gif" />
+    <asset path="src\rd_brwn_grb.gif" />
+    <asset path="src\rd_bl_grb.gif" />
+    <asset path="src\rd_grb.gif" />
+    <asset path="src\rd_grn_grb.gif" />
+    <asset path="src\rd_orng_grb.gif" />
+    <asset path="src\rd_rd_grb.gif" />
+    <asset path="src\rd_yllw_grb.gif" />
+    <asset path="src\yllw_grb.gif" />
+    <asset path="src\orng_grb.gif" />
+    <asset path="src\blue_pl_fuel.gif" />
+    <asset path="src\green_pl_fuel.gif" />
+    <asset path="src\home_pl_fuel.gif" />
+    <asset path="src\red_pl_fuel.gif" />
+    <asset path="src\intro1.gif" />
+    <asset path="src\intro2.gif" />
+    <asset path="src\CheckScoreDown.gif" />
+    <asset path="src\checkScoreUp.gif" />
+    <asset path="src\Correct.gif" />
+    <asset path="VERDANA.TTF" update="lib\VERDANA.TTF" />
+    <asset path="lib\VERDANA.TTF" />
+    <asset path="lib\VERDANAB.TTF" />
+    <asset path="lib\VERDANAI.TTF" />
+    <asset path="lib\VERDANAZ.TTF" />
+    <asset path="src\Courier.ttf" update="..\Downloads\Courier.ttf" />
+  </library>
+  <!-- Class files to compile (other referenced classes will automatically be included) -->
+  <compileTargets>
+    <compile path="src\Main.as" />
+  </compileTargets>
+  <!-- Paths to exclude from the Project Explorer tree -->
+  <hiddenPaths>
+    <!-- example: <hidden path="..." /> -->
+  </hiddenPaths>
+  <!-- Executed before build -->
+  <preBuildCommand />
+  <!-- Executed after build -->
+  <postBuildCommand alwaysRun="False" />
+  <!-- Other project options -->
+  <options>
+    <option showHiddenPaths="False" />
+    <option testMovie="ExternalPlayer" />
+  </options>
+  <!-- Plugin storage -->
+  <storage />
+</project>
