@@ -744,15 +744,16 @@ package
 			// entry point
 			//initialize tutorialState?
 			TimeFlow.tutorialState = true;
-			if (gameState == 0)
-				finalScene();
-				//initWelcome();
+			if (gameState == 0){
+				initWelcome();
 				//initResearchCenter();
 				//initGalaxyMap();
 				//setupCountSc("home");
 				//finalScene();
-				if (gameState == 1)
-					initGalaxyMap();
+			}
+			if (gameState == 1) {
+				initGalaxyMap();
+			}
 		
 		}
 	
