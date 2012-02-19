@@ -25,7 +25,7 @@ package
 		public var backgroundHold:Bitmap;
 		//public var backgroundDisp:Bitmap;
 		//[Embed(source = "star-scroller-test.jpg")]
-		[Embed(source="greeble_plsurf_fix.gif")]
+		[Embed(source = "img/greeble_plsurf_fix.gif")]
 		public static const bGround:Class;
 		
 		

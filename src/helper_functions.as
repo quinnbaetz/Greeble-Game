@@ -16,54 +16,58 @@ package
 	public class helper_functions
 	{
 		//assuming this is doable?
-		[Embed(source = "bl_bl_grb.gif")]
+		[Embed(source = "img/bl_bl_grb.gif")]
 		public static const bl_bl_grb:Class;
-		[Embed(source = "bl_brwn_grb.gif")]
+		[Embed(source = "img/bl_brwn_grb.gif")]
 		public static const bl_brwn_grb:Class;
-		[Embed(source = "bl_grb.gif")]
+		[Embed(source = "img/bl_grb.gif")]
 		public static const bl_grb:Class;
-		[Embed(source = "bl_grn_grb.gif")]
+		[Embed(source = "img/bl_grn_grb.gif")]
 		public static const bl_grn_grb:Class;
-		[Embed(source = "bl_orng_grb.gif")]
+		[Embed(source = "img/bl_orng_grb.gif")]
 		public static const bl_orng_grb:Class;
-		[Embed(source = "bl_rd_grb.gif")]
+		[Embed(source = "img/bl_rd_grb.gif")]
 		public static const bl_rd_grb:Class;
-		[Embed(source = "bl_yllw_grb.gif")]
+		[Embed(source = "img/bl_yllw_grb.gif")]
 		public static const bl_yllw_grb:Class;
-		[Embed(source = "brwn_grb.gif")]
+		[Embed(source = "img/brwn_grb.gif")]
 		public static const brwn_grb:Class;
-		[Embed(source = "grn_bl_grb.gif")]
+		[Embed(source = "img/grn_bl_grb.gif")]
 		public static const grn_bl_grb:Class;
-		[Embed(source = "grn_brwn_grb.gif")]
+		[Embed(source = "img/grn_brwn_grb.gif")]
 		public static const grn_brwn_grb:Class;
-		[Embed(source = "grn_grb.gif")]
+		[Embed(source = "img/grn_grb.gif")]
 		public static const grn_grb:Class;
-		[Embed(source = "grn_grn_grb.gif")]
+		[Embed(source = "img/grn_grn_grb.gif")]
 		public static const grn_grn_grb:Class;
-		[Embed(source = "grn_orng_grb.gif")]
+		[Embed(source = "img/grn_orng_grb.gif")]
 		public static const grn_orng_grb:Class;
-		[Embed(source = "grn_rd_grb.gif")]
+		[Embed(source = "img/grn_rd_grb.gif")]
 		public static const grn_rd_grb:Class;
-		[Embed(source = "grn_yllw_grb.gif")]
+		[Embed(source = "img/grn_yllw_grb.gif")]
 		public static const grn_yllw_grb:Class;
-		[Embed(source = "orng_grb.gif")]
+		[Embed(source = "img/orng_grb.gif")]
 		public static const orng_grb:Class;
-		[Embed(source = "rd_bl_grb.gif")]
+		[Embed(source = "img/rd_bl_grb.gif")]
 		public static const rd_bl_grb:Class;
-		[Embed(source = "rd_brwn_grb.gif")]
+		[Embed(source = "img/rd_brwn_grb.gif")]
 		public static const rd_brwn_grb:Class;
-		[Embed(source = "rd_grb.gif")]
+		[Embed(source = "img/rd_grb.gif")]
 		public static const rd_grb:Class;
-		[Embed(source = "rd_grn_grb.gif")]
+		[Embed(source = "img/rd_grn_grb.gif")]
 		public static const rd_grn_grb:Class;
-		[Embed(source = "rd_orng_grb.gif")]
+		[Embed(source = "img/rd_orng_grb.gif")]
 		public static const rd_orng_grb:Class;
-		[Embed(source = "rd_rd_grb.gif")]
+		[Embed(source = "img/rd_rd_grb.gif")]
 		public static const rd_rd_grb:Class;
-		[Embed(source = "rd_yllw_grb.gif")]
+		[Embed(source = "img/rd_yllw_grb.gif")]
 		public static const rd_yllw_grb:Class;
-		[Embed(source = "yllw_grb.gif")]
+		[Embed(source = "img/yllw_grb.gif")]
 		public static const yllw_grb:Class;
+		
+		[Embed(source='fonts/VERDANA.ttf', fontFamily = "GreebleFont", mimeType='application/x-font')]
+		public var _verdana_str :String;
+				
 		//[Embed(source="../src/Courier.ttf", fontFamily = "Courier", mimeType='application/x-font')]
 		//public static var _courier:Class;
 		//[Embed(source="../VERDANA.TTF", fontFamily = "Verdana", mimeType='application/x-font')]
@@ -97,18 +101,18 @@ package
 		{
 			var format:flash.text.TextFormat = new TextFormat();
 			//var font:Font;
-			if (reqFont == "Courier")
+			/*if (reqFont == "Courier")
 			{
 				format.font = "Courier";
 			}
 			if (reqFont == "Verdana")
 			{
 				format.font = "Verdana";
-			}
-			
+			}*/
+			format.font = "GreebleFont"
 			format.color = colour;
 			format.bold = true;
-			format.size = tSize;
+			format.size = 12;
 			myText.defaultTextFormat = format;
 			//myText.embedFonts = true;
 			return myText;

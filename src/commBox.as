@@ -24,11 +24,11 @@ package
 		private var fuzzMax:int = 2;
 		public var container:MovieClip;
 		public var commBoxDisp:Bitmap;
-		[Embed(source = "scientist.gif")]
+		[Embed(source = "img/scientist.gif")]
 		public static const scienceMan:Class;
-		[Embed(source = "static.gif")]
+		[Embed(source = "img/static.gif")]
 		public static const staticMap:Class;
-		[Embed(source = "commBox.gif")]
+		[Embed(source = "img/commBox.gif")]
 		public static const commBoxGif:Class;
 		private var filter:DisplacementMapFilter = createDMFilter();
 		public var intensityTimer:Timer;

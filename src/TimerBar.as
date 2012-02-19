@@ -17,13 +17,13 @@ package
 	 */
 	public class TimerBar extends Sprite
 	{
-		[Embed(source = "blue_pl_fuel.gif")]
+		[Embed(source = "img/blue_pl_fuel.gif")]
 		public static const blue_pl_fuel:Class;
-		[Embed(source = "green_pl_fuel.gif")]
+		[Embed(source = "img/green_pl_fuel.gif")]
 		public static const green_pl_fuel:Class;
-		[Embed(source = "home_pl_fuel.gif")]
+		[Embed(source = "img/home_pl_fuel.gif")]
 		public static const home_pl_fuel:Class;
-		[Embed(source = "red_pl_fuel.gif")]
+		[Embed(source = "img/red_pl_fuel.gif")]
 		public static const red_pl_fuel:Class;
 		public var container:MovieClip;
 		public var fuelHUD:Bitmap;
@@ -33,7 +33,7 @@ package
 		public var colour:String;
 		public var timeDone:Boolean = false;
 		private var pl_fuel:Bitmap;
-		[Embed(source = "fuelWindow.gif")]
+		[Embed(source = "img/fuelWindow.gif")]
 		public static const fuelWindow:Class;
 		
 		

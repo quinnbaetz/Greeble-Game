@@ -40,19 +40,19 @@ package
 		//private var startButt:Button
 		//different integer codes to change game state
 		private var gameState:int = 0;
-		[Embed(source="sepaLogo.png")]
+		[Embed(source="img/sepaLogo.png")]
 		public static const sepaLogo:Class;
-		[Embed(source="up_arrow.gif")]
+		[Embed(source="img/up_arrow.gif")]
 		public static const arrow:Class;
-		[Embed(source="intro1.gif")]
+		[Embed(source="img/intro1.gif")]
 		public static const introBg1:Class;
-		[Embed(source="intro2.gif")]
+		[Embed(source="img/intro2.gif")]
 		public static const introBg2:Class;
-		[Embed(source="neuron.png")]
+		[Embed(source="img/neuron.png")]
 		public static const neuronLogo:Class;
-		[Embed(source="NIH_Logo.png")]
+		[Embed(source="img/NIH_Logo.png")]
 		public static const NIH_logo:Class;
-		[Embed(source="imark.png")]
+		[Embed(source="img/imark.png")]
 		public static const imark:Class;
 		public var fadeLock:Boolean = false;
 		public var scoreArray:Array = new Array();
