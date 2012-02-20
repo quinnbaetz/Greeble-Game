@@ -358,6 +358,7 @@ package
 			TweenLite.to(nihLogo, 3, {delay: 3, alpha: 0});
 			TweenLite.to(sepaLogo, 3, {delay: 3, alpha: 0});
 			TweenLite.to(imark, 3, {delay: 3, alpha: 0});
+			
 			TweenLite.to(neuronLogo, 3, {delay: 3, alpha: 0, onComplete: transitionFunc});
 			//end of display logo chunk
 		
@@ -365,7 +366,7 @@ package
 		
 		private function transitionFunc():void
 		{
-			var welcomeText:TextField = new TextField();
+			var welcomeText:flash.text.TextField = new TextField();
 			//format the text
 			welcomeText = helper_functions.formatText(welcomeText, 12, 0x00, "Verdana");
 			welcomeText.width = 275;
@@ -652,8 +653,8 @@ package
 			var introBg:Bitmap = new introBg2();
 			addChild(introBg);
 			fadeIn();
-			var researchText:TextField = new TextField();
-			helper_functions.formatText(researchText, 12, 0, "Verdana");
+			var researchText:flash.text.TextField = new TextField();
+			researchText = helper_functions.formatText(researchText, 12, 0, "Verdana");
 			researchText.width = 400;
 			researchText.height = 250;
 			researchText.x = 320;

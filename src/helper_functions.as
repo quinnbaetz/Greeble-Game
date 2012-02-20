@@ -3,11 +3,9 @@ package
 	import flash.display.Bitmap;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
-	import flash.text.Font;
-	import flash.text.TextField;
+	import flash.text.*;
 	import flash.ui.KeyLocation;
 	import flash.ui.Keyboard;
-	import flash.text.TextFormat;
 	[SWF(width="800", height="600", backgroundColor="0x00")]
 	/**
 	 * ...
@@ -15,6 +13,8 @@ package
 	 */
 	public class helper_functions
 	{
+		[Embed(source='fonts/verdana.ttf', fontFamily = "verdana", mimeType='application/x-font', embedAsCFF="false")]
+		public static const Greeble_Font:Class;
 		//assuming this is doable?
 		[Embed(source = "img/bl_bl_grb.gif")]
 		public static const bl_bl_grb:Class;
@@ -65,14 +65,12 @@ package
 		[Embed(source = "img/yllw_grb.gif")]
 		public static const yllw_grb:Class;
 		
-		[Embed(source='fonts/VERDANA.ttf', fontFamily = "GreebleFont", mimeType='application/x-font')]
-		public var _verdana_str :String;
-				
+		
 		//[Embed(source="../src/Courier.ttf", fontFamily = "Courier", mimeType='application/x-font')]
 		//public static var _courier:Class;
 		//[Embed(source="../VERDANA.TTF", fontFamily = "Verdana", mimeType='application/x-font')]
 		//public static var _verdana:Class;
-		
+
 		//takes a Sprite, assumes 0,0 relative draw...
 		public static function drawBox(myBox:Sprite, colour:Number, width:Number, height:Number, outl_fl:Number):void
 		{//outl_fl used as alpha (determines whether filled or not).
@@ -97,24 +95,14 @@ package
 			return inputField;
 		}
 		
-		public static function formatText(myText:TextField, tSize:Number, colour:Number, reqFont:String):TextField
+		public static function formatText(myText:flash.text.TextField, tSize:Number, colour:Number, reqFont:String):TextField
 		{
-			var format:flash.text.TextFormat = new TextFormat();
-			//var font:Font;
-			/*if (reqFont == "Courier")
-			{
-				format.font = "Courier";
-			}
-			if (reqFont == "Verdana")
-			{
-				format.font = "Verdana";
-			}*/
-			format.font = "GreebleFont"
-			format.color = colour;
-			format.bold = true;
-			format.size = 12;
+			var myFont:Font = new Greeble_Font();
+			var format:flash.text.TextFormat = new TextFormat(myFont.fontName, 12, colour);
+			myText.embedFonts=true;
 			myText.defaultTextFormat = format;
-			//myText.embedFonts = true;
+			//myText.antiAliasType=flash.text.AntiAliasType.ADVANCED;
+			
 			return myText;
 		}
 		
@@ -129,13 +117,14 @@ package
 			{
 				format.font = "Verdana"
 			}
-			//myText.embedFonts = true;
+			myText.embedFonts = true;
 			format.font = font;
 			format.color = colour;
 			format.bold = true;
 			format.size = tSize;
 			format.letterSpacing = spacing;
 			myText.defaultTextFormat = format;
+			myText.antiAliasType=flash.text.AntiAliasType.ADVANCED;
 			return myText;
 		}
 		
