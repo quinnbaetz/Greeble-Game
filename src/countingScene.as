@@ -24,15 +24,15 @@ package
 	
 	public class countingScene extends Sprite
 	{
-		[Embed(source="CheckScoreDown.gif")]
+		[Embed(source = "img/CheckScoreDown.gif")]
 		public static const chkSc_down:Class;
-		[Embed(source="checkScoreUp.gif")]
+		[Embed(source = "img/checkScoreUp.gif")]
 		public static const chkSc_Up:Class;
-		[Embed(source="Correct.gif")]
+		[Embed(source = "img/Correct.gif")]
 		public static const crrct_img:Class;
-		[Embed(source="countingMenu.gif")]
+		[Embed(source = "img/countingMenu.gif")]
 		public static const cntMenu:Class;
-		[Embed(source="Incorrect.gif")]
+		[Embed(source = "img/Incorrect.gif")]
 		public static const inc_img:Class;
 		
 		//constant

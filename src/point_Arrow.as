@@ -15,7 +15,7 @@ package
 	 */
 	public class point_Arrow extends Sprite 
 	{
-		[Embed(source = "up_arrow.gif")]
+		[Embed(source = "img/up_arrow.gif")]
 		public static const upArrow:Class;
 		private var myArrow:Bitmap;
 		public var container:MovieClip;

@@ -40,19 +40,19 @@ package
 		//private var startButt:Button
 		//different integer codes to change game state
 		private var gameState:int = 0;
-		[Embed(source="sepaLogo.png")]
+		[Embed(source="img/sepaLogo.png")]
 		public static const sepaLogo:Class;
-		[Embed(source="up_arrow.gif")]
+		[Embed(source="img/up_arrow.gif")]
 		public static const arrow:Class;
-		[Embed(source="intro1.gif")]
+		[Embed(source="img/intro1.gif")]
 		public static const introBg1:Class;
-		[Embed(source="intro2.gif")]
+		[Embed(source="img/intro2.gif")]
 		public static const introBg2:Class;
-		[Embed(source="neuron.png")]
+		[Embed(source="img/neuron.png")]
 		public static const neuronLogo:Class;
-		[Embed(source="NIH_Logo.png")]
+		[Embed(source="img/NIH_Logo.png")]
 		public static const NIH_logo:Class;
-		[Embed(source="imark.png")]
+		[Embed(source="img/imark.png")]
 		public static const imark:Class;
 		public var fadeLock:Boolean = false;
 		public var scoreArray:Array = new Array();
@@ -358,6 +358,7 @@ package
 			TweenLite.to(nihLogo, 3, {delay: 3, alpha: 0});
 			TweenLite.to(sepaLogo, 3, {delay: 3, alpha: 0});
 			TweenLite.to(imark, 3, {delay: 3, alpha: 0});
+			
 			TweenLite.to(neuronLogo, 3, {delay: 3, alpha: 0, onComplete: transitionFunc});
 			//end of display logo chunk
 		
@@ -365,7 +366,7 @@ package
 		
 		private function transitionFunc():void
 		{
-			var welcomeText:TextField = new TextField();
+			var welcomeText:flash.text.TextField = new TextField();
 			//format the text
 			welcomeText = helper_functions.formatText(welcomeText, 12, 0x00, "Verdana");
 			welcomeText.width = 275;
@@ -652,8 +653,8 @@ package
 			var introBg:Bitmap = new introBg2();
 			addChild(introBg);
 			fadeIn();
-			var researchText:TextField = new TextField();
-			helper_functions.formatText(researchText, 12, 0, "Verdana");
+			var researchText:flash.text.TextField = new TextField();
+			researchText = helper_functions.formatText(researchText, 12, 0, "Verdana");
 			researchText.width = 400;
 			researchText.height = 250;
 			researchText.x = 320;
@@ -744,15 +745,16 @@ package
 			// entry point
 			//initialize tutorialState?
 			TimeFlow.tutorialState = true;
-			if (gameState == 0)
-				finalScene();
-				//initWelcome();
+			if (gameState == 0){
+				initWelcome();
 				//initResearchCenter();
 				//initGalaxyMap();
 				//setupCountSc("home");
 				//finalScene();
-				if (gameState == 1)
-					initGalaxyMap();
+			}
+			if (gameState == 1) {
+				initGalaxyMap();
+			}
 		
 		}
 	

@@ -15,23 +15,23 @@ package
 	 */
 	public class galaxyMap extends Sprite
 	{
-		[Embed(source = "blueBox.gif")]
+		[Embed(source = "img/blueBox.gif")]
 		public static const blueBox:Class;
-		[Embed(source = "blueLine.gif")]
+		[Embed(source = "img/blueLine.gif")]
 		public static const blueLine:Class;
-		[Embed(source = "C:/Users/Gavin/NEURON/src/greenBox.gif")]
+		[Embed(source = "img/greenBox.gif")]
 		public static const greenBox:Class;
-		[Embed(source = "C:/Users/Gavin/NEURON/src/greenLine.gif")]
+		[Embed(source = "img/greenLine.gif")]
 		public static const greenLine:Class;
-		[Embed(source = "C:/Users/Gavin/NEURON/src/redBox.gif")]
+		[Embed(source = "img/redBox.gif")]
 		public static const redBox:Class;
-		[Embed(source = "C:/Users/Gavin/NEURON/src/redLine.gif")]
+		[Embed(source = "img/redLine.gif")]
 		public static const redLine:Class;
-		[Embed(source = "C:/Users/Gavin/NEURON/src/whiteBox.gif")]
+		[Embed(source = "img/whiteBox.gif")]
 		public static const homeBox:Class;
-		[Embed(source = "C:/Users/Gavin/NEURON/src/homeLine.gif")]
+		[Embed(source = "img/homeLine.gif")]
 		public static const homeLine:Class;
-		[Embed(source = "C:/Users/Gavin/NEURON/src/universeMap.jpg")]
+		[Embed(source = "img/universeMap.jpg")]
 		public static const universeMap:Class;
 		
 		public var container:MovieClip;

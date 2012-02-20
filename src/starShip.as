@@ -21,9 +21,9 @@ package
 	
 	public class starShip extends Sprite 
 	{
-		[Embed(source="spaceShip_lzr.gif")]
+		[Embed(source = "img/spaceShip_lzr.gif")]
 		public static const g_laserShip:Class;
-		[Embed(source="spaceShip.gif")]
+		[Embed(source = "img/spaceShip.gif")]
 		public static const g_Ship:Class;
 		//public var entryLzrFixer:Boolean = false;
 		public var refStage:Stage;

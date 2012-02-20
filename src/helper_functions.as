@@ -3,11 +3,9 @@ package
 	import flash.display.Bitmap;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
-	import flash.text.Font;
-	import flash.text.TextField;
+	import flash.text.*;
 	import flash.ui.KeyLocation;
 	import flash.ui.Keyboard;
-	import flash.text.TextFormat;
 	[SWF(width="800", height="600", backgroundColor="0x00")]
 	/**
 	 * ...
@@ -15,60 +13,64 @@ package
 	 */
 	public class helper_functions
 	{
+		[Embed(source='fonts/verdana.ttf', fontFamily = "verdana", mimeType='application/x-font', embedAsCFF="false")]
+		public static const Greeble_Font:Class;
 		//assuming this is doable?
-		[Embed(source = "bl_bl_grb.gif")]
+		[Embed(source = "img/bl_bl_grb.gif")]
 		public static const bl_bl_grb:Class;
-		[Embed(source = "bl_brwn_grb.gif")]
+		[Embed(source = "img/bl_brwn_grb.gif")]
 		public static const bl_brwn_grb:Class;
-		[Embed(source = "bl_grb.gif")]
+		[Embed(source = "img/bl_grb.gif")]
 		public static const bl_grb:Class;
-		[Embed(source = "bl_grn_grb.gif")]
+		[Embed(source = "img/bl_grn_grb.gif")]
 		public static const bl_grn_grb:Class;
-		[Embed(source = "bl_orng_grb.gif")]
+		[Embed(source = "img/bl_orng_grb.gif")]
 		public static const bl_orng_grb:Class;
-		[Embed(source = "bl_rd_grb.gif")]
+		[Embed(source = "img/bl_rd_grb.gif")]
 		public static const bl_rd_grb:Class;
-		[Embed(source = "bl_yllw_grb.gif")]
+		[Embed(source = "img/bl_yllw_grb.gif")]
 		public static const bl_yllw_grb:Class;
-		[Embed(source = "brwn_grb.gif")]
+		[Embed(source = "img/brwn_grb.gif")]
 		public static const brwn_grb:Class;
-		[Embed(source = "grn_bl_grb.gif")]
+		[Embed(source = "img/grn_bl_grb.gif")]
 		public static const grn_bl_grb:Class;
-		[Embed(source = "grn_brwn_grb.gif")]
+		[Embed(source = "img/grn_brwn_grb.gif")]
 		public static const grn_brwn_grb:Class;
-		[Embed(source = "grn_grb.gif")]
+		[Embed(source = "img/grn_grb.gif")]
 		public static const grn_grb:Class;
-		[Embed(source = "grn_grn_grb.gif")]
+		[Embed(source = "img/grn_grn_grb.gif")]
 		public static const grn_grn_grb:Class;
-		[Embed(source = "grn_orng_grb.gif")]
+		[Embed(source = "img/grn_orng_grb.gif")]
 		public static const grn_orng_grb:Class;
-		[Embed(source = "grn_rd_grb.gif")]
+		[Embed(source = "img/grn_rd_grb.gif")]
 		public static const grn_rd_grb:Class;
-		[Embed(source = "grn_yllw_grb.gif")]
+		[Embed(source = "img/grn_yllw_grb.gif")]
 		public static const grn_yllw_grb:Class;
-		[Embed(source = "orng_grb.gif")]
+		[Embed(source = "img/orng_grb.gif")]
 		public static const orng_grb:Class;
-		[Embed(source = "rd_bl_grb.gif")]
+		[Embed(source = "img/rd_bl_grb.gif")]
 		public static const rd_bl_grb:Class;
-		[Embed(source = "rd_brwn_grb.gif")]
+		[Embed(source = "img/rd_brwn_grb.gif")]
 		public static const rd_brwn_grb:Class;
-		[Embed(source = "rd_grb.gif")]
+		[Embed(source = "img/rd_grb.gif")]
 		public static const rd_grb:Class;
-		[Embed(source = "rd_grn_grb.gif")]
+		[Embed(source = "img/rd_grn_grb.gif")]
 		public static const rd_grn_grb:Class;
-		[Embed(source = "rd_orng_grb.gif")]
+		[Embed(source = "img/rd_orng_grb.gif")]
 		public static const rd_orng_grb:Class;
-		[Embed(source = "rd_rd_grb.gif")]
+		[Embed(source = "img/rd_rd_grb.gif")]
 		public static const rd_rd_grb:Class;
-		[Embed(source = "rd_yllw_grb.gif")]
+		[Embed(source = "img/rd_yllw_grb.gif")]
 		public static const rd_yllw_grb:Class;
-		[Embed(source = "yllw_grb.gif")]
+		[Embed(source = "img/yllw_grb.gif")]
 		public static const yllw_grb:Class;
+		
+		
 		//[Embed(source="../src/Courier.ttf", fontFamily = "Courier", mimeType='application/x-font')]
 		//public static var _courier:Class;
 		//[Embed(source="../VERDANA.TTF", fontFamily = "Verdana", mimeType='application/x-font')]
 		//public static var _verdana:Class;
-		
+
 		//takes a Sprite, assumes 0,0 relative draw...
 		public static function drawBox(myBox:Sprite, colour:Number, width:Number, height:Number, outl_fl:Number):void
 		{//outl_fl used as alpha (determines whether filled or not).
@@ -93,24 +95,14 @@ package
 			return inputField;
 		}
 		
-		public static function formatText(myText:TextField, tSize:Number, colour:Number, reqFont:String):TextField
+		public static function formatText(myText:flash.text.TextField, tSize:Number, colour:Number, reqFont:String):TextField
 		{
-			var format:flash.text.TextFormat = new TextFormat();
-			//var font:Font;
-			if (reqFont == "Courier")
-			{
-				format.font = "Courier";
-			}
-			if (reqFont == "Verdana")
-			{
-				format.font = "Verdana";
-			}
-			
-			format.color = colour;
-			format.bold = true;
-			format.size = tSize;
+			var myFont:Font = new Greeble_Font();
+			var format:flash.text.TextFormat = new TextFormat(myFont.fontName, 12, colour);
+			myText.embedFonts=true;
 			myText.defaultTextFormat = format;
-			//myText.embedFonts = true;
+			//myText.antiAliasType=flash.text.AntiAliasType.ADVANCED;
+			
 			return myText;
 		}
 		
@@ -125,13 +117,14 @@ package
 			{
 				format.font = "Verdana"
 			}
-			//myText.embedFonts = true;
+			myText.embedFonts = true;
 			format.font = font;
 			format.color = colour;
 			format.bold = true;
 			format.size = tSize;
 			format.letterSpacing = spacing;
 			myText.defaultTextFormat = format;
+			myText.antiAliasType=flash.text.AntiAliasType.ADVANCED;
 			return myText;
 		}
 		
