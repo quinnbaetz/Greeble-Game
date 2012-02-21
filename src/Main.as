@@ -5,6 +5,7 @@ package
 	 */
 	import flash.display.Loader;
 	import flash.display.MovieClip;
+	import flash.display.SimpleButton;
 	import flash.display.Sprite;
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -12,6 +13,7 @@ package
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.events.FocusEvent;
+	import flash.events.GestureEvent;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.text.TextFormat;
@@ -29,12 +31,12 @@ package
 	import countingScene;
 	import TimeFlow;
 	[SWF(width="800",height="600",backgroundColor="0x00")]
-	
+
 	/**
 	 * ...
 	 * @author Gavin
 	 */
-	
+
 	public class Main extends Sprite
 	{
 		//private var startButt:Button
@@ -54,17 +56,31 @@ package
 		public static const NIH_logo:Class;
 		[Embed(source="img/imark.png")]
 		public static const imark:Class;
+		[Embed(source = "img/WhiteGif.gif")]
+		public static const whiteSc:Class;
+		[Embed(source = "img/TryAgain.gif")]
+		public static const tryAgain:Class;
+		[Embed(source = "img/GreenGif.gif")]
+		public static const greenSc:Class;
+		[Embed(source = "img/BlueGif.gif")]
+		public static const blueSc:Class;
+		[Embed(source = "img/RedGif.gif")]
+		public static const redSc:Class;
 		public var fadeLock:Boolean = false;
 		public var scoreArray:Array = new Array();
 		public var countScene:countingScene;
+		
+		
+		//constant
+		private static var KEY_CONTINUE:String = "\n\n[Press any key to continue]";
 		//for complete in galaxyMap
 		private var R:Boolean = false;
 		private var G:Boolean = false;
 		private var B:Boolean = false;
 		private var H:Boolean = false;
-		
+
 		public var firstPlay:Boolean = true;
-		
+
 		public function Main():void
 		{
 			if (stage)
@@ -72,7 +88,7 @@ package
 			else
 				addEventListener(Event.ADDED_TO_STAGE, init);
 		}
-		
+
 		private function fadeIn():void
 		{
 			fadeLock = true;
@@ -84,13 +100,13 @@ package
 			addChild(fader);
 			TweenLite.to(fader, 3, {alpha: 0, onComplete: removeFunc, onCompleteParams: [fader]});
 		}
-		
+
 		private function removeFunc(fader:MovieClip):void
 		{
 			removeChild(fader);
 			fadeLock = false;
 		}
-		
+
 		//training
 		private function tutorialSeq():void
 		{
@@ -113,13 +129,14 @@ package
 			var trainingTimer:TimerBar = new TimerBar("home");
 			addChild(trainingTimer);
 			var pArrow:point_Arrow = new point_Arrow(655, 500, 160);
-			
+
 			//Radio Text Here
 			commMan = new commBox();
 			commMan.x = 125;
 			commMan.y = 80;
 			addChild(commMan);
 			//format text for the commBox
+			var plBoxOutline:Sprite
 			var commText:TextField = new TextField();
 			commText = helper_functions.formatText(commText, 8, 0x35BA00, "Courier");
 			commText.width = 255;
@@ -133,7 +150,7 @@ package
 			function nextText(e:KeyboardEvent):void
 			{
 				stage.removeEventListener(KeyboardEvent.KEY_DOWN, nextText);
-				commText.text = "Before we get there I’ll walk you through the mineral collection system I’ve added to the ship." + "\n\n[Press any key to continue]";
+				commText.text = "Before we get there, I’ll walk you through the mineral collection system I’ve added to the ship." + "\n\n[Press any key to continue]";
 				stage.addEventListener(KeyboardEvent.KEY_DOWN, drawOutline);
 			}
 			function drawOutline(e:KeyboardEvent):void
@@ -143,19 +160,32 @@ package
 				boxOutline.y = 450;
 				addChild(pArrow);
 				addChild(boxOutline);
-				commText.text = "First, you’ll notice your ship’s fuel bar on the left side of the screen." + " Fuel runs out over time, so this bar lets you how much time you have left for collection." + "\n\n[Press any key to continue]";
+				commText.text = "First, you’ll notice your ship’s fuel bar on the right side of the screen." + " Fuel runs out over time, so this bar lets you how much time you have left for collection." + "\n\n[Press any key to continue]";
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, notFinalSpeech);
+			}
+			function notFinalSpeech(e:KeyboardEvent):void
+			{
+				stage.removeEventListener(KeyboardEvent.KEY_DOWN, notFinalSpeech);
+				removeChild(boxOutline);
+				plBoxOutline = new Sprite();
+				helper_functions.drawBox(plBoxOutline, 0xFFFFFF, 80, 25, 0);
+				plBoxOutline.x = 645;
+				plBoxOutline.y = 530;
+				addChild(plBoxOutline);
+				commText.text = "Next to the fuel bar is your location display, this will indicate what planet your ship is on." + "\n\n[Press any key to continue]";
 				stage.addEventListener(KeyboardEvent.KEY_DOWN, finalSpeech);
+				//More Radio Text Explainy Business Here
 			}
 			function finalSpeech(e:KeyboardEvent):void
 			{
 				stage.removeEventListener(KeyboardEvent.KEY_DOWN, finalSpeech);
 				removeChild(pArrow);
-				removeChild(boxOutline);
-				commText.text = "Ok, you should be arriving at the crystal deposit now." + " Remember, we are only interested in RED Crystals! Don’t waste cargo space" + " by filling it with  with the other colors. Just Red!" + " Good Luck!" + "\n[Press any key to continue]";
+				removeChild(plBoxOutline);
+				commText.text = "Ok, you should be arriving at the crystal deposit now. Remember, we are only interested in RED crystals! Don’t waste cargo space by filling it with the other colors. Just Red!"
+				+ " Good Luck!" +"\n\n[Press any key to continue]";
 				stage.addEventListener(KeyboardEvent.KEY_DOWN, removeOutline);
-				//More Radio Text Explainy Business Here
 			}
-			
+
 			function removeOutline(e:KeyboardEvent):void
 			{
 				removeChild(commText);
@@ -184,20 +214,24 @@ package
 				var tutOver:Timer = new Timer(2000, 0);
 				tutOver.start();
 				tutOver.addEventListener(TimerEvent.TIMER, tutorialOver);
-				
+
 				function tutorialOver(e:TimerEvent):void
 				{
 					if (trainingTimer.timeDone == true)
 					{
 						tutOver.removeEventListener(TimerEvent.TIMER, tutorialOver);
 						addChild(commMan);
-						commText.text = "Oh no! Looks like you've run out of fuel for this trip." + " Let's see how well you did collecting the red crystals.";
+						commText.text = "Looks like you've run out of fuel," + " head back to the lab to count the cargo." + "\n\n[Press any key to continue]";
 						addChild(commText);
-						TweenLite.to(commMan, 0, {alpha: 0, delay: 3});
-						TweenLite.to(commText, 0, {alpha: 0, delay: 3, onComplete: exitTutorial});
+						TimeFlow.lockLazer = true;
+						stage.addEventListener(KeyboardEvent.KEY_DOWN, exitTutorial);
 						
-						function exitTutorial():void
+						function exitTutorial(e: KeyboardEvent):void
 						{
+							TimeFlow.lockLazer = false;
+							stage.removeEventListener(KeyboardEvent.KEY_DOWN, exitTutorial);
+							removeChild(commMan);
+							removeChild(commText);
 							scoreArray.push(myGlowy.returnArray());
 							removeChild(myGlowy);
 							scoreArray.push(myGlowy2.returnArray());
@@ -219,9 +253,9 @@ package
 						}
 					}
 				}
-			
+
 			}
-		
+
 		/*
 		 * Reference Code -----
 		   var bmpData:BitmapData = new BitmapData(800, 600);
@@ -241,10 +275,10 @@ package
 		   myArrow.transform.matrix = tMatrix;
 		 */
 		}
-		
+
 		private function initMainPlay(planet:String):void
 		{
-			
+
 			removeEventListener(MouseEvent.CLICK, changePlay);
 			var myScroller:Background = new Background(planet);
 			var scoreArr:Array = new Array();
@@ -270,7 +304,7 @@ package
 			var tutOver:Timer = new Timer(2000, 0);
 			tutOver.start();
 			tutOver.addEventListener(TimerEvent.TIMER, tutorialOver);
-			
+
 			function tutorialOver(e:TimerEvent):void
 			{
 				if (myTimerBar.timeDone == true)
@@ -289,13 +323,18 @@ package
 					commText.wordWrap = true;
 					tutOver.removeEventListener(TimerEvent.TIMER, tutorialOver);
 					addChild(commMan);
-					commText.text = "Oh no! Looks like you've run out of fuel for this trip." + " Let's see how well you did collecting the red crystals.";
+					commText.text = "Looks like you are almost out of fuel, head back to the lab to count the cargo" + "\n\n[Press any key to continue]";
 					addChild(commText);
-					TweenLite.to(commMan, 0, {alpha: 0, delay: 3});
-					TweenLite.to(commText, 0, { alpha: 0, delay: 3, onComplete: exitPlanet } );
+					stage.addEventListener(KeyboardEvent.KEY_DOWN, exitPlanet);
+					TimeFlow.lockLazer = true;
 					
+
 					function exitPlanet():void
 					{
+					TimeFlow.lockLazer = false;
+					removeEventListener(KeyboardEvent.KEY_DOWN, exitPlanet);
+					removeChild(commMan);
+					removeChild(commText);
 					scoreArray.push(myGlowy.returnArray());
 					removeChild(myGlowy);
 					scoreArray.push(myGlowy2.returnArray());
@@ -317,9 +356,9 @@ package
 					}
 				}
 			}
-		
+
 		}
-		
+
 		private function initWelcome():void
 		{
 			//gameState is zero
@@ -352,18 +391,19 @@ package
 			sepaLogo.y = 350;
 			addChild(sepaLogo);
 			var imark:Bitmap = new imark();
-			imark.x = 650;
-			imark.y = 450;
+			imark.x = 655;
+			imark.y = 415;
 			addChild(imark);
+			TweenLite.to(imark, 0, { width: 89, height:  115 } );
 			TweenLite.to(nihLogo, 3, {delay: 3, alpha: 0});
 			TweenLite.to(sepaLogo, 3, {delay: 3, alpha: 0});
 			TweenLite.to(imark, 3, {delay: 3, alpha: 0});
-			
+
 			TweenLite.to(neuronLogo, 3, {delay: 3, alpha: 0, onComplete: transitionFunc});
 			//end of display logo chunk
-		
+
 		}
-		
+
 		private function transitionFunc():void
 		{
 			var welcomeText:flash.text.TextField = new TextField();
@@ -375,14 +415,14 @@ package
 			welcomeText.y = 225;
 			welcomeText.wordWrap = true;
 			welcomeText.text = "Welcome to the Greeble Academy of Science!" + " Here at GAS, researchers are excited about a recent" + " announcement from the astronomy division: we discovered" + " three new star systems within range of our space ship !" + "\n\n As the newest scientist at the academy (and the only one who could figure out how to start the space ship) you are the first member of our planetary exploration team!" +
-				
+
 				"\n\n Report to the astronomy division to find out more about your first assignment. Good Luck!" + "\n\n\n [Press any key to continue]";
-			
+
 			addChild(welcomeText);
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, changeState);
-		
+
 		}
-		
+
 		private function makeScoreBox(box:Sprite):void
 		{
 			box.graphics.beginFill(0xFFFFFF, .93);
@@ -390,70 +430,97 @@ package
 			box.graphics.drawRect(0, 0, 150, 150);
 			box.graphics.endFill();
 		}
-		
+
 		private function popupScore():void
 		{
-			var hBox:Sprite = new Sprite();
-			hBox.x = 360;
+			var hBox:Bitmap = new whiteSc();
+			hBox.x = 0;
 			hBox.y = 60;
 			var hScore:TextField = new TextField();
 			helper_functions.formatText(hScore, 5, 0x00, "Courier");
-			hScore.x = 370;
-			hScore.y = 70;
-			hScore.width = 125;
-			hScore.height = 100;
-			hScore.text = "Home Planet\n" + "Selection:\n " + TimeFlow.getHomeScore + "\n\n" + "Completion:\n " + TimeFlow.getHomeScoreC;
-			
-			var gBox:Sprite = new Sprite();
-			gBox.x = 510;
+			hScore.x = 160;
+			hScore.y = 158;
+			hScore.width = 300;
+			hScore.height = 50;
+			hScore.text =  TimeFlow.getHomeScore + "                            " + TimeFlow.getHomeScoreC;
+
+			var gBox:Bitmap = new greenSc();
+			gBox.x = 400;
 			gBox.y = 60;
 			var gScore:TextField = new TextField();
 			helper_functions.formatText(gScore, 5, 0x00, "Courier");
-			gScore.x = 520;
-			gScore.y = 70;
-			gScore.width = 125;
-			gScore.height = 100;
-			gScore.text = "Green Planet\n" + "Selection:\n " + TimeFlow.getGreenScore + "\n\n" + "Completion:\n " + TimeFlow.getGreenScoreC;
-			
-			var bBox:Sprite = new Sprite();
-			bBox.x = 510;
-			bBox.y = 210;
+			gScore.x = 560;
+			gScore.y = 158;
+			gScore.width = 300;
+			gScore.height = 50;
+			gScore.text = TimeFlow.getGreenScore + "                            " + TimeFlow.getGreenScoreC;
+
+			var bBox:Bitmap = new blueSc();
+			bBox.x = 00;
+			bBox.y = 230;
 			var bScore:TextField = new TextField();
 			helper_functions.formatText(bScore, 5, 0x00, "Courier");
-			bScore.x = 520;
-			bScore.y = 220;
-			bScore.width = 125;
-			bScore.height = 100;
-			bScore.text = "Blue Planet\n" + "Selection:\n " + TimeFlow.getBlueScore + "\n\n" + "Completion:\n " + TimeFlow.getBlueScoreC;
-			
-			var rBox:Sprite = new Sprite();
-			rBox.x = 360;
-			rBox.y = 210;
+			bScore.x = 160;
+			bScore.y = 328;
+			bScore.width = 300;
+			bScore.height = 50;
+			bScore.text = TimeFlow.getBlueScore + "                            " + TimeFlow.getBlueScoreC;
+
+			var rBox:Bitmap = new redSc();
+			rBox.x = 400;
+			rBox.y = 230;
 			var rScore:TextField = new TextField();
 			helper_functions.formatText(rScore, 5, 0x00, "Courier");
-			rScore.x = 370;
-			rScore.y = 220;
-			rScore.width = 125;
-			rScore.height = 100;
-			rScore.text = "Red Planet\n" + "Selection:\n " + TimeFlow.getRedScore + "\n\n" + "Completion:\n " + TimeFlow.getRedScoreC;
-			
-			makeScoreBox(hBox);
+			rScore.x = 560;
+			rScore.y = 328;
+			rScore.width = 300;
+			rScore.height = 50;
+			rScore.text = TimeFlow.getRedScore + "                            " + TimeFlow.getRedScoreC;
+
+			/*makeScoreBox(hBox);
 			makeScoreBox(gBox);
 			makeScoreBox(bBox);
-			makeScoreBox(rBox);
+			makeScoreBox(rBox);*/
 			addChild(hBox);
 			addChild(gBox);
 			addChild(bBox);
 			addChild(rBox);
+			TweenLite.to(hBox, 0, { alpha: .9 } );
+			TweenLite.to(gBox, 0, { alpha: .9 } );
+			TweenLite.to(bBox, 0, { alpha: .9 } );
+			TweenLite.to(rBox, 0, { alpha: .9 } );
 			addChild(hScore);
 			addChild(bScore);
 			addChild(rScore);
 			addChild(gScore);
 		}
-		
-		private function restartGame():void
+
+
+		private function finalScene():void
 		{
-			var restartBox:Sprite = new Sprite();
+			var researchRoom:Bitmap = new introBg2();
+			var replayButton:Bitmap;
+			addChild(researchRoom);
+			fadeIn();
+			var rschText:TextField = new TextField();
+			helper_functions.formatText(rschText, 16, 0, "Verdana");
+			rschText.width = 400;
+			rschText.height = 250;
+			rschText.x = 320;
+			rschText.y = 520;
+			rschText.wordWrap = true;
+			rschText.text = "Welcome back! We almost forgot about you out there..." + " Let's see what you have.. you did remember to just collect" + " the red crystals, right?"
+			+ "\n[Press any key to continue]";
+			addChild(rschText);
+			popupScore();
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, restartGame);
+		
+		 function restartGame(e:KeyboardEvent):void
+		{
+			stage.removeEventListener(KeyboardEvent.KEY_DOWN, restartGame);
+			replayButton = new tryAgain();
+			removeChild(rschText);
+			/*var restartBox:Sprite = new Sprite();
 			restartBox.graphics.beginFill(0xFFFFFF, .8);
 			restartBox.graphics.lineStyle(3, 0x0);
 			restartBox.graphics.drawRect(0, 0, 150, 50);
@@ -468,17 +535,22 @@ package
 			restartText.x = 440;
 			restartText.y = 515;
 			addChild(restartBox);
-			addChild(restartText);
-			addEventListener(MouseEvent.CLICK, replaySetup);
+			addChild(restartText);*/
+			addChild(replayButton);
+			replayButton.x = 400;
+			replayButton.y = 500;
+			stage.addEventListener(MouseEvent.CLICK, replaySetup);
 		}
-		
-		private function replaySetup(e:MouseEvent):void
+
+		function replaySetup(e:MouseEvent):void
 		{
+			trace(mouseX);
+			trace(mouseY);
 			if (mouseX > 400 && mouseY > 500)
 			{
-				if (mouseX < 550 && mouseY < 550)
+				if (mouseX < 545 && mouseY < 560)
 				{
-					removeEventListener(MouseEvent.CLICK, replaySetup);
+					stage.removeEventListener(MouseEvent.CLICK, replaySetup);
 					TimeFlow.allValues = 0;
 					R = false;
 					B = false;
@@ -489,25 +561,8 @@ package
 				}
 			}
 		}
-		
-		private function finalScene():void
-		{
-			var researchRoom:Bitmap = new introBg2();
-			addChild(researchRoom);
-			fadeIn();
-			var rschText:TextField = new TextField();
-			helper_functions.formatText(rschText, 16, 0, "Verdana");
-			rschText.width = 400;
-			rschText.height = 250;
-			rschText.x = 320;
-			rschText.y = 520;
-			rschText.wordWrap = true;
-			rschText.text = "Welcome back! We almost forgot about you out there..." + " Let's see what you have.. you did remember to just collect" + " the red crystals, right?";
-			addChild(rschText);
-			TweenLite.to(rschText, 3, {delay: 8, alpha: 0, onComplete: restartGame});
-			popupScore();
 		}
-		
+
 		private function initGalaxyMap():void
 		{
 			if (getChildByName("myMap") != null)
@@ -525,7 +580,7 @@ package
 			//stage.focus = myMap;
 			addChild(myMap);
 			addChild(welcomePrompt);
-			
+
 			//text
 			var welcomeText:TextField = new TextField();
 			helper_functions.formatText(welcomeText, 3, 0xFFFFFF, "Courier");
@@ -544,9 +599,9 @@ package
 			addChild(welcomeText);
 			fadeIn();
 			addEventListener(MouseEvent.CLICK, changePlay, false, 0, true);
-		
+
 		}
-		
+
 		private function changePlay(e:MouseEvent):void
 		{
 			//series of cumbersome if - else statements will ensue
@@ -644,10 +699,10 @@ package
 						}
 					}
 				} //blue if
-				
+
 			} // fadelock if
 		}
-		
+
 		private function initResearchCenter():void
 		{
 			var introBg:Bitmap = new introBg2();
@@ -672,7 +727,7 @@ package
 			function nextDialogue2(e:KeyboardEvent):void
 			{
 				stage.removeEventListener(KeyboardEvent.KEY_DOWN, nextDialogue2);
-				researchText.text = "Your first assignment will be to visit each of the newly discovered" + "planets to bring back mineral crystal samples for us to analyze." + "\n\n[Press any key to continue]";
+				researchText.text = "Your first assignment will be to visit each of the newly discovered" + " planets to bring back mineral crystal samples for us to analyze." + "\n\n[Press any key to continue]";
 				stage.addEventListener(KeyboardEvent.KEY_DOWN, nextDialogue3);
 			}
 			function nextDialogue3(e:KeyboardEvent):void
@@ -693,9 +748,9 @@ package
 				researchText.text = "We even have some here! In fact, put on your space suit and jump" + " in the ship for a test flight, I’ll explain more on the way via radio..." + "\n\n[Press any key to continue]";
 				stage.addEventListener(KeyboardEvent.KEY_DOWN, changeStateMap);
 			}
-		
+
 		}
-		
+
 		public function changeStateMap(e:KeyboardEvent):void
 		{
 			if (fadeLock == false)
@@ -708,7 +763,7 @@ package
 				tutorialSeq();
 			}
 		}
-		
+
 		public function changeState(e:KeyboardEvent):void
 		{
 			if (gameState == 0 && fadeLock == false)
@@ -717,18 +772,145 @@ package
 				gameState = 1;
 				initResearchCenter();
 			}
-		
+
 		}
-		
+
 		private function setupCountSc(planet:String):void
 		{
 			countScene = new countingScene(scoreArray, planet);
 			addChild(countScene);
 			countScene.addEventListener(Event.ENTER_FRAME, changeScene);
+			var myComm:commBox = new commBox();
+			myComm.x = 125;
+			myComm.y = 30;
+			if (TimeFlow.getTutorialState)
+			{
+			addChild(myComm);
+			//dialogue portion
+			var commText:TextField = new TextField();
+			commText = helper_functions.formatText(commText, 8, 0x35BA00, "Courier");
+			commText.width = 250;
+			commText.height = 200;
+			commText.x = 356;
+			commText.y = 125;
+			commText.wordWrap = true;
+			commText.text = "Let's see how you did." + KEY_CONTINUE;
+			addChild(commText);
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, nextText);
+			
+			function nextText(e:KeyboardEvent):void
+			{
+				stage.removeEventListener(KeyboardEvent.KEY_DOWN, nextText);
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, nextText2);
+				commText.text = "The crystals you collected are displayed along the top of this inventory screen." + KEY_CONTINUE;
+			}
+			
+			function nextText2(e:KeyboardEvent):void
+			{
+				stage.removeEventListener(KeyboardEvent.KEY_DOWN, nextText2);
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, nextText3);
+				commText.text = "Any crystal that you didn’t pick up is displayed in the inventory display as a transparent icon." + KEY_CONTINUE;
+			
+			}
+			
+			function nextText3(e:KeyboardEvent):void
+			{
+				stage.removeEventListener(KeyboardEvent.KEY_DOWN, nextText3);
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, nextText4);
+				commText.text = "Use the calculation display to count up your cargo." + KEY_CONTINUE;
+			}
+			function nextText4(e:KeyboardEvent):void
+			{
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, nextText5);
+				stage.removeEventListener(KeyboardEvent.KEY_DOWN, nextText4);
+				commText.text = "Selection accuracy will tell us how good you were at picking up red crystals and avoiding the other colors..." + KEY_CONTINUE;
+			}
+			function nextText5(e:KeyboardEvent):void
+			{
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, nextText7);
+				stage.removeEventListener(KeyboardEvent.KEY_DOWN, nextText5);
+				commText.text = "Completion accuracy will tell us if you left any red crystals behind." + KEY_CONTINUE;
+			
+			}
+			/**
+			function nextText6(e:KeyboardEvent):void
+			{
+				addEventListener(KeyboardEvent.KEY_DOWN, nextText7);
+				removeEventListener(KeyboardEvent.KEY_DOWN, nextText6);
+				commText.text = "Completion accuracy will tell us if you left any red Crystals behind that you could have picked up. Remember that the transparent crystals are the ones you missed." + KEY_CONTINUE;
+			}
+			*/
+			function nextText7(e:KeyboardEvent):void
+			{
+				stage.removeEventListener(KeyboardEvent.KEY_DOWN, nextText7);
+				removeChild(myComm);
+				removeChild(commText);
+			}
+			}
 		}
 		
+		private function displayErrMessage():void
+		{
+			TimeFlow.showIncorrect = false;
+			var myCommer:commBox = new commBox();
+			addChild(myCommer);
+			myCommer.x = 125;
+			myCommer.y = 30;
+			var commText:TextField = new TextField();
+			commText = helper_functions.formatText(commText, 8, 0x35BA00, "Courier");
+			commText.width = 250;
+			commText.height = 200;
+			commText.x = 356;
+			commText.y = 125;
+			commText.wordWrap = true;
+			commText.text = "Check your numbers again, the computer is giving an error message, make sure you counted all the crystals correctly.";
+			addChild(commText);
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, removeComm);
+			function removeComm(e:KeyboardEvent):void
+			{
+				stage.removeEventListener(KeyboardEvent.KEY_DOWN, removeComm);
+				
+					removeChild(myCommer);
+			
+					removeChild(commText);
+				
+			}
+		}
+		
+		private function popupSwitch():void
+		{
+			TimeFlow.showCorrect = false;
+			var myComm:commBox = new commBox();
+			myComm.x = 125;
+			myComm.y = 30;
+			addChild(myComm);
+			var commText:TextField = new TextField();
+			commText = helper_functions.formatText(commText, 8, 0x35BA00, "Courier");
+			commText.width = 250;
+			commText.height = 200;
+			commText.x = 356;
+			commText.y = 125;
+			commText.wordWrap = true;
+			commText.text = "Looks like you did a pretty good job! I think you are ready to head to the new planets and start searching for red crystals!" + "\n\n[Press any key to continue]";
+			addChild(commText);
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, changeVal);
+			function changeVal(e:KeyboardEvent):void
+			{
+				TimeFlow.changeCount = true;
+				stage.removeEventListener(KeyboardEvent.KEY_DOWN, changeVal);
+			}
+		}
+
 		private function changeScene(e:Event):void
 		{
+			if (Boolean(TimeFlow.displayIncorrect))
+			{
+				displayErrMessage();
+			}
+			if (Boolean(TimeFlow.displayCorrect))
+			{
+				popupSwitch();
+			}
 			if (Boolean(TimeFlow.getChangeCount))
 			{
 				TimeFlow.changeCount = false;
@@ -736,7 +918,7 @@ package
 				initGalaxyMap();
 			}
 		}
-		
+
 		private function init(e:Event = null):void
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
@@ -749,15 +931,16 @@ package
 				initWelcome();
 				//initResearchCenter();
 				//initGalaxyMap();
+				//initMainPlay("green");
 				//setupCountSc("home");
 				//finalScene();
 			}
 			if (gameState == 1) {
 				initGalaxyMap();
 			}
-		
+
 		}
-	
+
 	}
 
 }

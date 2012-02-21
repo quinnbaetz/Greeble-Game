@@ -43,6 +43,7 @@ package
 		laserbeam1 = new MovieClip();
 		laserbeam2 = new MovieClip();
 		shipSprite = new Sprite();
+		TimeFlow.lockLazer = false;
 		refStage = stage;
 		addChild(laserbeam1);
 		addChild(laserbeam2);
@@ -59,7 +60,7 @@ package
 		container.y = 488;
 		addChildAt(container, 0);
 		TweenLite.to(myshipBit, 0, { width: width * 2, height: height * 2 } );
-		TweenLite.to(myshipBit, 3, { width: width / 2, height: height / 2, onComplete: unlockMe} );
+		TweenLite.to(myshipBit, 2, { width: width / 2, height: height / 2, onComplete: unlockMe} );
 		addEventListener(Event.ENTER_FRAME, mouseFollow, false, 0 , true);
 		addEventListener(Event.ENTER_FRAME, headTension, false, 0, true);
 		refStage.addEventListener(MouseEvent.CLICK, laserEyes, false, 0, true);
@@ -136,7 +137,7 @@ package
 	
 		private function laserEyes(e:MouseEvent):void
 		{
-			if (lockLzr == false)
+			if (lockLzr == false && !Boolean(TimeFlow.getLockLazer))
 			{
 			container.addChildAt(myshipbit_Lzr, 1);
 			shipTimer = new Timer(300, 1);

@@ -54,6 +54,7 @@ package
 		private var total_se:TextField;
 		private var percent_se:TextField;
 		private var isDone:int = 0;
+		private var isDone2:int = 0;
 		private var buttonClick:int = 0;
 		private var myComm:commBox;
 		
@@ -89,10 +90,12 @@ package
 			total_cm.y = 336;
 			container.addChild(total_cm);
 			
-			percent_cm = helper_functions.makeInputBox();
+			percent_cm = new TextField();
+			percent_cm = helper_functions.formatText(percent_cm, 12, 0x00, "null");
+			percent_cm.width = 50;
 			percent_cm.x = 465;
-			percent_cm.y = 307;
-			container.addChild(percent_cm);
+			percent_cm.y = 315;
+			//container.addChild(percent_cm);
 			
 			//selection score
 			collected_se = helper_functions.makeInputBox();
@@ -105,10 +108,12 @@ package
 			total_se.y = 507;
 			container.addChild(total_se);
 			
-			percent_se = helper_functions.makeInputBox();
+			percent_se = new TextField();
+			percent_se = helper_functions.formatText(percent_se, 12, 0x00, "booboo");
+			percent_se.width = 50;
 			percent_se.x = 465;
-			percent_se.y = 480;
-			container.addChild(percent_se);
+			percent_se.y = 488;
+			//container.addChild(percent_se);
 		}
 		
 		private function countingDialogue():void
@@ -132,38 +137,42 @@ package
 				addEventListener(KeyboardEvent.KEY_DOWN, nextText2);
 				commText.text = "The crystals you collected are displayed along the top of this inventory screen." + KEY_CONTINUE;
 			}
+			
 			function nextText2(e:KeyboardEvent):void
 			{
 				removeEventListener(KeyboardEvent.KEY_DOWN, nextText2);
 				addEventListener(KeyboardEvent.KEY_DOWN, nextText3);
-				commText.text = "I installed a scanner into the ship so that any crystals you flew over were surveyed, a good way to see if you missed anything. " + KEY_CONTINUE;
+				commText.text = "Any crystal that you didn’t pick up is displayed in the inventory display as a transparent icon." + KEY_CONTINUE;
 			
 			}
+			
 			function nextText3(e:KeyboardEvent):void
 			{
 				removeEventListener(KeyboardEvent.KEY_DOWN, nextText3);
 				addEventListener(KeyboardEvent.KEY_DOWN, nextText4);
-				commText.text = "Any crystal that you didn’t pick up shows up in the inventory display as a transparent icon." + KEY_CONTINUE;
+				commText.text = "Use the calculation display to count up your cargo." + KEY_CONTINUE;
 			}
 			function nextText4(e:KeyboardEvent):void
 			{
 				addEventListener(KeyboardEvent.KEY_DOWN, nextText5);
 				removeEventListener(KeyboardEvent.KEY_DOWN, nextText4);
-				commText.text = "Use the calculation display to count up your cargo and find your collection and completion accuracy" + KEY_CONTINUE;
+				commText.text = "Selection accuracy will tell us how good you were at picking up red crystals and avoiding the other colors..." + KEY_CONTINUE;
 			}
 			function nextText5(e:KeyboardEvent):void
 			{
-				addEventListener(KeyboardEvent.KEY_DOWN, nextText6);
+				addEventListener(KeyboardEvent.KEY_DOWN, nextText7);
 				removeEventListener(KeyboardEvent.KEY_DOWN, nextText5);
-				commText.text = "Selection accuracy will tell us how good you were at picking up red Crystals and avoiding the other colors..." + KEY_CONTINUE;
+				commText.text = "Completion accuracy will tell us if you left any red crystals behind." + KEY_CONTINUE;
 			
 			}
+			/**
 			function nextText6(e:KeyboardEvent):void
 			{
 				addEventListener(KeyboardEvent.KEY_DOWN, nextText7);
 				removeEventListener(KeyboardEvent.KEY_DOWN, nextText6);
 				commText.text = "Completion accuracy will tell us if you left any red Crystals behind that you could have picked up. Remember that the transparent crystals are the ones you missed." + KEY_CONTINUE;
 			}
+			*/
 			function nextText7(e:KeyboardEvent):void
 			{
 				removeEventListener(KeyboardEvent.KEY_DOWN, nextText7);
@@ -184,16 +193,16 @@ package
 			container.addChild(cHold);
 			var eqColl:TextField = new TextField();
 			helper_functions.formatText(eqColl, 14, 0x00, "Verdana");
-			eqColl.text = "= collected";
-			eqColl.x = 430;
-			eqColl.y = 198;
+			eqColl.text = "Collected";
+			eqColl.x = 17;
+			eqColl.y = 20;
 			container.addChild(eqColl);
 			var eqLeft:TextField = new TextField();
 			helper_functions.formatText(eqLeft, 14, 0x00, "Verdana");
-			eqLeft.text = "= left on planet";
+			eqLeft.text = "Missed";
 			eqLeft.width = 175;
-			eqLeft.x = 620;
-			eqLeft.y = 198;
+			eqLeft.x = 17;
+			eqLeft.y = 135;
 			container.addChild(eqLeft);
 			var mult1:TextField = new TextField();
 			helper_functions.formatText(mult1, 20, 0x00, "Verdana");
@@ -370,12 +379,12 @@ package
 			commText.x = 356;
 			commText.y = 125;
 			commText.wordWrap = true;
-			commText.text = "Check your numbers again, the computer is giving an error message, make sure you counted all the Greelbimium correctly.";
+			commText.text = "Check your numbers again, the computer is giving an error message, make sure you counted all the crystals correctly.";
 			container.addChild(commText);
-			TweenLite.to(commText, 0, {alpha: 0, delay: 3, onComplete: removeComm});
-			TweenLite.to(myCommer, 0, {alpha: 0, delay: 3, onComplete: removeComm});
-			function removeComm():void
+			container.addEventListener(KeyboardEvent.KEY_DOWN, removeComm);
+			function removeComm(e:KeyboardEvent):void
 			{
+				container.removeEventListener(KeyboardEvent.KEY_DOWN, removeComm);
 				if (container.contains(myCommer))
 				{
 					container.removeChild(myCommer);
@@ -394,26 +403,36 @@ package
 			var usrBottom:Number = Number(total_se.getLineText(0));
 			var usrTop:Number = Number(collected_se.getLineText(0));
 			var percent:Number = (top / bottom) * 100;
+			if (bottom == 0 || top == 0)
+			{
+				percent = 0;
+			}
 			percent = Number(percent.toPrecision(2));
+			percent_se.text = percent.toString();
 			storePercent(percent);
-			trace(percent);
-			var percent_i:Number = Number(percent_se.getLineText(0));
-			var erredInput:Boolean = ((percent != percent_i) || (usrTop != top) || (usrBottom != bottom));
+			//trace(percent);
+			//TODO: RENDER PERCENTAGE INSTEAD OF TAKING IN USER INPUT
+			//var percent_i:Number = Number(percent_se.getLineText(0));
+			var erredInput:Boolean = ((usrTop != top) || (usrBottom != bottom));
 			if (erredInput)
 			{
-				//display incorrect
 				if (correct != null && container.contains(correct))
+				//display incorrect
 				{
 					container.removeChild(correct);
 				}
+				if (incorrect == null)
+				{
 				incorrect = new inc_img();
 				incorrect.x = 667;
 				incorrect.y = 480;
 				container.addChild(incorrect);
+				}
 				buttonClick++;
 				if (buttonClick >= 2)
 				{
-					displayErrMessage();
+					//displayErrMessage();
+					TimeFlow.showIncorrect = true;
 				}
 			}
 			else
@@ -423,11 +442,15 @@ package
 				{
 					container.removeChild(incorrect);
 				}
+				if (correct == null)
+				{
+				container.addChild(percent_se);
 				correct = new crrct_img();
 				correct.x = 667;
 				correct.y = 480;
 				isDone++;
 				container.addChild(correct);
+				}
 			}
 		
 		}
@@ -441,10 +464,15 @@ package
 			var bottom:Number = total_red;
 			var percent:Number = (top / bottom) * 100;
 			percent = Number(percent.toPrecision(2));
+			if (bottom == 0 || top == 0)
+			{
+				percent = 0;
+			}
+			percent_cm.text = percent.toString();
 			storePercentC(percent);
-			trace(percent);
-			var percent_i:Number = Number(percent_cm.getLineText(0));
-			var erredInput:Boolean = ((percent != percent_i) || (usrTop != top) || (usrBottom != bottom));
+			//trace(percent);
+			//var percent_i:Number = Number(percent_cm.getLineText(0));
+			var erredInput:Boolean = ((usrTop != top) || (usrBottom != bottom));
 			if (erredInput)
 			{
 				//display incorrect
@@ -452,14 +480,19 @@ package
 				{
 					container.removeChild(correct2);
 				}
+				if (incorrect2 == null)
+				{
 				incorrect2 = new inc_img();
 				incorrect2.x = 667;
 				incorrect2.y = 305;
 				container.addChild(incorrect2);
+				}
+				
 				buttonClick++;
 				if (buttonClick >= 2)
 				{
-					displayErrMessage();
+					//displayErrMessage();
+					TimeFlow.showIncorrect = true;
 				}
 			}
 			else
@@ -470,11 +503,15 @@ package
 					container.removeChild(incorrect2);
 				}
 				//trace("success!")
+				if (correct2 == null)
+				{
+				container.addChild(percent_cm);
 				correct2 = new crrct_img();
 				correct2.x = 667;
 				correct2.y = 305;
-				isDone++;
+				isDone2++;
 				container.addChild(correct2);
+				}
 			}
 		
 		}
@@ -485,15 +522,15 @@ package
 			var dispGrbArray:Array = new Array();
 			var i:int = 0;
 			var strtPos:int;
-			var newY:int = 30;
+			var newY:int = 40;
 			//display red
-			for (i = 0; i < num_red; i++)
+			for (i = 1; i <= num_red; i++)
 			{
 				dispGrbArray[i] = new helper_functions.rd_grb();
 				dispGrbArray[i].x = i * 16;
-				if (i % 2 == 0)
+				if (i % 5 == 0)
 				{
-					dispGrbArray[i].y += (newY + 3);
+					dispGrbArray[i].y += (newY + 5);
 				}
 				else
 				{
@@ -503,13 +540,13 @@ package
 			}
 			//display green
 			strtPos = i;
-			for (i = 0; i < num_green; i++)
+			for (i = 1; i <= num_green; i++)
 			{
 				dispGrbArray[i] = new helper_functions.grn_grb();
 				dispGrbArray[i].x = (strtPos + i) * 16;
-				if (i % 2 == 0)
+				if (i % 5 == 0)
 				{
-					dispGrbArray[i].y += (newY + 3);
+					dispGrbArray[i].y += (newY + 5);
 				}
 				else
 				{
@@ -523,16 +560,16 @@ package
 			
 			if (strtPos > 40)
 			{
-				newY = (newY + 40);
+				newY = (newY + 20);
 				strtPos = 0;
 			}
-			for (i = 0; i < num_blue; i++)
+			for (i = 1; i <= num_blue; i++)
 			{
 				dispGrbArray[i] = new helper_functions.bl_grb();
 				dispGrbArray[i].x = (strtPos + i) * 16;
-				if (i % 2 == 0)
+				if (i % 5 == 0)
 				{
-					dispGrbArray[i].y += (newY + 3);
+					dispGrbArray[i].y += (newY + 5);
 				}
 				else
 				{
@@ -546,16 +583,16 @@ package
 			//move Y down one in display
 			if (strtPos > 40)
 			{
-				newY = (newY + 40);
+				newY = (newY + 20);
 				strtPos = 0;
 			}
-			for (i = 0; i < num_yellow; i++)
+			for (i = 1; i <= num_yellow; i++)
 			{
 				dispGrbArray[i] = new helper_functions.yllw_grb();
 				dispGrbArray[i].x = (strtPos + i) * 16;
-				if (i % 2 == 0)
+				if (i % 5 == 0)
 				{
-					dispGrbArray[i].y += (newY + 3);
+					dispGrbArray[i].y += (newY + 5);
 				}
 				else
 				{
@@ -569,16 +606,16 @@ package
 			//move Y down one in display
 			if (strtPos > 40)
 			{
-				newY = (newY + 40);
+				newY = (newY + 20);
 				strtPos = 0;
 			}
-			for (i = 0; i < num_orange; i++)
+			for (i = 1; i <= num_orange; i++)
 			{
 				dispGrbArray[i] = new helper_functions.orng_grb();
 				dispGrbArray[i].x = (strtPos + i) * 16;
-				if (i % 2 == 0)
+				if (i % 5 == 0)
 				{
-					dispGrbArray[i].y += (newY + 3);
+					dispGrbArray[i].y += (newY + 5);
 				}
 				else
 				{
@@ -592,16 +629,16 @@ package
 			//move Y down one in display
 			if (strtPos > 40)
 			{
-				newY = (newY + 40);
+				newY = (newY + 20);
 				strtPos = 0;
 			}
-			for (i = 0; i < num_brown; i++)
+			for (i = 1; i <= num_brown; i++)
 			{
 				dispGrbArray[i] = new helper_functions.brwn_grb();
 				dispGrbArray[i].x = (strtPos + i) * 16;
-				if (i % 2 == 0)
-				{
-					dispGrbArray[i].y += (newY + 3);
+				if (i % 5 == 0)
+				{ 
+					dispGrbArray[i].y += (newY + 5);
 				}
 				else
 				{
@@ -612,16 +649,16 @@ package
 			//display left behind greebles
 			strtPos = 0;
 			//trace(strtPos);
-			//move Y down one in display
-			newY = newY + 60;
-			for (i = 0; i < (total_red - num_red); i++)
+			//move Y down into "missed display"
+			newY = 150;
+			for (i = 1; i <= (total_red - num_red); i++)
 			{
 				dispGrbArray[i] = new helper_functions.rd_grb();
 				dispGrbArray[i].alpha = .5;
 				dispGrbArray[i].x = (strtPos + i) * 16;
-				if (i % 2 == 0)
+				if (i % 5 == 0)
 				{
-					dispGrbArray[i].y += (newY + 3);
+					dispGrbArray[i].y += (newY + 5);
 				}
 				else
 				{
@@ -719,6 +756,17 @@ package
 			}
 		}
 		
+		private function makeDiv():void
+		{
+			var myLine:MovieClip = new MovieClip();
+			myLine.graphics.clear();
+			myLine.graphics.lineStyle(3, 0x00); //line style
+			myLine.graphics.moveTo(10, 130);
+			myLine.graphics.lineTo(790, 130);
+			//return myLine;
+			container.addChild(myLine);
+		}
+		
 		private function popupSwitchComm():void
 		{
 			container.addChild(myComm);
@@ -729,25 +777,30 @@ package
 			commText.x = 356;
 			commText.y = 125;
 			commText.wordWrap = true;
-			commText.text = "These numbers look pretty good! " + "Let's get you into space and on your way\n\n" + "[Press any key to continue]";
+			commText.text = "Looks like you did a pretty good job! I think you are ready to head to the new planets and start searching for red crystals!" + "\n\n[Press any key to continue]";
 			container.addChild(commText);
 		}
 		
 		private function leaveScene(e:Event):void
 		{
-			if (isDone >= 2)
+			if (isDone && isDone2)
 			{
 				if (TimeFlow.getTutorialState)
 				{
-					TimeFlow.tutorialState = false;
+					//TimeFlow.tutorialState = false;
 					//popupSwitchComm(); tutorialState is probably useless now
+					TimeFlow.showCorrect = true;
 				}		
-				popupSwitchComm();
-				addEventListener(KeyboardEvent.KEY_DOWN, changeScene);
+				//popupSwitchComm();
+				//container.addEventListener(KeyboardEvent.KEY_DOWN, changeScene);
 				removeEventListener(Event.ENTER_FRAME, leaveScene);
 			}
 		}
 		
+		/**
+		 * This class is probably useless now
+		 * @param	e
+		 *
 		private function changeScene(e:KeyboardEvent):void
 		{
 			removeEventListener(KeyboardEvent.KEY_DOWN, changeScene);
@@ -755,6 +808,7 @@ package
 			//removeChild(container);
 			//dispatchEvent(new Event(Event.COMPLETE));
 		}
+		*/
 		
 		private function dispMiniGreebles():void
 		{
@@ -800,15 +854,13 @@ package
 			setupInput(); //setups the input boxes
 			dispDivLines(); //will display div lines
 			dispText();
-			dispMiniGreebles();
+			//dispMiniGreebles();
 			//should always be initialized
-			myComm = new commBox();
-			myComm.x = 125;
-			myComm.y = 30;
-			if (TimeFlow.getTutorialState)
-			{
-				countingDialogue();
-			}
+			//myComm = new commBox();
+			//myComm.x = 125;
+			//myComm.y = 30;
+			makeDiv();
+
 		}
 	}
 

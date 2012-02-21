@@ -78,7 +78,7 @@ package
 		private function addCompleted():void
 		{
 			complText = new TextField();
-			complText = helper_functions.formatTextSpce(complText, 35, 0xFFFFFF, "Courier", 5);
+			complText = helper_functions.formatText(complText, 35, 0xFFFFFF, "Courier");
 			complText.text = "COMPLETED";
 			complText.width = 200;
 			complText.x = 560;

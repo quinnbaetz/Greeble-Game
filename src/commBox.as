@@ -20,8 +20,8 @@ package
 	public class commBox extends Sprite
 	{
 		public var portrait:Bitmap;
-		private var fuzzMin:int = 0;
-		private var fuzzMax:int = 2;
+		private var fuzzMin:int = 18;
+		private var fuzzMax:int = 26;
 		public var container:MovieClip;
 		public var commBoxDisp:Bitmap;
 		[Embed(source = "img/scientist.gif")]
@@ -30,6 +30,7 @@ package
 		public static const staticMap:Class;
 		[Embed(source = "img/commBox.gif")]
 		public static const commBoxGif:Class;
+		private var fuzzCount:int = 0;
 		private var filter:DisplacementMapFilter = createDMFilter();
 		public var intensityTimer:Timer;
 		
@@ -93,17 +94,18 @@ package
 		private function intStatic(e:TimerEvent):void 
 		{
 			var newMin:int = randRange(0, 10);
-			if (newMin < 5)
+			fuzzCount++;
+			if (fuzzCount >= 3)
 			{
 				fuzzMin = 1;
 				fuzzMax = 3;
 			}
-			if (newMin >= 5 && newMin < 8)
+			if (fuzzCount < 3 && fuzzCount >=2)
 			{
 				fuzzMin = 6;
 				fuzzMax = 12;
 			}
-			if (newMin > 8)
+			if (fuzzCount < 2 )
 			{
 				fuzzMin = 18;
 				fuzzMax = 28;

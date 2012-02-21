@@ -9,6 +9,8 @@ package
 	public class TimeFlow extends MovieClip 
 	{
 		private static var changeFromCountScene:Boolean;
+		private static var displayInc:Boolean;
+		private static var displayCor:Boolean;
 		private static var tutorial:Boolean;
 		private static var HomeScore:Number;
 		private static var GreenScore:Number;
@@ -18,6 +20,8 @@ package
 		private static var GreenScoreC:Number;
 		private static var RedScoreC:Number;
 		private static var BlueScoreC:Number;
+		private static var lockLzrMessage:Boolean;
+		
 		
 		public function TimeFlow()
 		{
@@ -50,6 +54,11 @@ package
 		public static function set setHomeScoreC(score:Number):void
 		{
 			HomeScoreC = score;
+		}
+		
+		public static function set lockLazer(lockIt:Boolean):void
+		{
+			lockLzrMessage = lockIt;
 		}
 		
 		public static function set setGreenScoreC(score:Number):void
@@ -97,6 +106,20 @@ package
 			changeFromCountScene = changeVal;	
 		}
 		
+		public static function set showCorrect(changeVal:Boolean):void
+		{
+			displayCor = changeVal;	
+		}
+		
+		public static function set showIncorrect(changeVal:Boolean):void
+		{
+			displayInc = changeVal;	
+		}
+		public static function get getLockLazer():Boolean
+		{
+			return lockLzrMessage;
+		}
+		
 		public static function get getTutorialState():Boolean
 		{
 			return tutorial;
@@ -104,6 +127,14 @@ package
 		public static function get getChangeCount():Boolean
 		{
 			return changeFromCountScene;
+		}
+		public static function get displayIncorrect():Boolean
+		{
+			return displayInc;
+		}
+		public static function get displayCorrect():Boolean
+		{
+			return displayCor;
 		}
 		
 		public static function get getHomeScore():Number

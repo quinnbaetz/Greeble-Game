@@ -111,7 +111,7 @@ package
 			}
 			if (colour == "home")
 			{
-				timeLabel.text = ("Home Star");
+				timeLabel.text = ("White Star");
 			}
 			if (colour == "red")
 			{
