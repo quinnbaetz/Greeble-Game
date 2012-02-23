@@ -40,7 +40,7 @@ package
 		private var planetType:String;
 		private var myScore:Array;
 		private var num_red:Number = 0;
-		
+		private var collecting:Boolean = true;
 		
 		
 		
@@ -283,11 +283,18 @@ package
 			}
 		}
 		*/
+		public function stopCollecting():void
+		{
+			collecting = false;
+			container.removeEventListener(MouseEvent.CLICK, goInvisible, false);
+		}
 		private function goInvisible(e:MouseEvent):void
 		{
 			TweenLite.to(container, .5, { alpha:0, onComplete:tweenOver } );
-			myScore.push(greebleType);
-			numCollected++;
+			if(collecting){
+				myScore.push(greebleType);
+				numCollected++;
+			}
 			frozen = true;
 			
 		}

@@ -3,12 +3,22 @@ package
 	/**
 	 * @mxmlc -library-path+=C:\Program Files (x86)\Adobe\Adobe Flash CS5.5\Common\First Run
 	 */
+	import Background;
+	
+	import Greeble;
+	
+	import TimeFlow;
+	
+	import com.greensock.*;
+	
+	import countingScene;
+	
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.display.Loader;
 	import flash.display.MovieClip;
 	import flash.display.SimpleButton;
 	import flash.display.Sprite;
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
 	import flash.display.Stage;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
@@ -16,20 +26,17 @@ package
 	import flash.events.GestureEvent;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
-	import flash.text.TextFormat;
 	import flash.events.TimerEvent;
-	import flash.net.URLRequest;
 	import flash.geom.Matrix;
-	import com.greensock.*;
-	import Background;
+	import flash.net.URLRequest;
 	import flash.text.TextField;
+	import flash.text.TextFormat;
 	import flash.ui.KeyLocation;
-	import flash.utils.Timer;
 	import flash.ui.Keyboard;
-	import Greeble;
+	import flash.utils.Timer;
+	
 	import helper_functions;
-	import countingScene;
-	import TimeFlow;
+	
 	[SWF(width="800",height="600",backgroundColor="0x00")]
 
 	/**
@@ -114,19 +121,14 @@ package
 			firstPlay = false;
 			var myBackground:Background = new Background("home");
 			var myShip:starShip = new starShip(stage);
-			var myGlowy:Greeble;
-			var myGlowy2:Greeble;
-			var myGlowy3:Greeble;
-			var myGlowy4:Greeble;
-			var myGlowy5:Greeble;
-			var myGlowy6:Greeble;
-			var myGlowy7:Greeble;
+		
 			var commMan:commBox;
 			addChild(myBackground);
 			addChild(myShip);
 			var boxOutline:Sprite = new Sprite();
 			helper_functions.drawBox(boxOutline, 0xFFFFFF, 133, 115, 0);
 			var trainingTimer:TimerBar = new TimerBar("home");
+			trainingTimer.stopTween();
 			addChild(trainingTimer);
 			var pArrow:point_Arrow = new point_Arrow(655, 500, 160);
 
@@ -173,15 +175,29 @@ package
 				plBoxOutline.y = 530;
 				addChild(plBoxOutline);
 				commText.text = "Next to the fuel bar is your location display, this will indicate what planet your ship is on." + "\n\n[Press any key to continue]";
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, mouseSpeach);
+				//More Radio Text Explainy Business Here
+			}
+			function mouseSpeach(e:KeyboardEvent):void
+			{
+				stage.removeEventListener(KeyboardEvent.KEY_DOWN, mouseSpeach);
+				removeChild(boxOutline);
+				plBoxOutline = new Sprite();
+				helper_functions.drawBox(plBoxOutline, 0xFFFFFF, 80, 25, 0);
+				plBoxOutline.x = 645;
+				plBoxOutline.y = 530;
+				addChild(plBoxOutline);
+				commText.text = "When you see a crystal, click it to fire the collection laser." + "\n\n[Press any key to continue]";
 				stage.addEventListener(KeyboardEvent.KEY_DOWN, finalSpeech);
 				//More Radio Text Explainy Business Here
 			}
+			
 			function finalSpeech(e:KeyboardEvent):void
 			{
 				stage.removeEventListener(KeyboardEvent.KEY_DOWN, finalSpeech);
 				removeChild(pArrow);
 				removeChild(plBoxOutline);
-				commText.text = "Ok, you should be arriving at the crystal deposit now. Remember, we are only interested in RED crystals! Don’t waste cargo space by filling it with the other colors. Just Red!"
+				commText.text = "Ok, you should be arriving at the crystal deposit now. Remember, we are only interested in RED crystals!"
 				+ " Good Luck!" +"\n\n[Press any key to continue]";
 				stage.addEventListener(KeyboardEvent.KEY_DOWN, removeOutline);
 			}
@@ -194,19 +210,17 @@ package
 				removeChild(trainingTimer);
 				var scoreArr:Array = new Array();
 				trainingTimer = new TimerBar("home");
-				myGlowy = new Greeble("red", "home");
-				myGlowy2 = new Greeble("blue", "home");
-				myGlowy3 = new Greeble("green", "home");
-				myGlowy4 = new Greeble("yellow", "home");
-				myGlowy5 = new Greeble("orange", "home");
-				myGlowy6 = new Greeble("brown", "home");
+				
+				var colors:Array = ["red", "blue", "green", "yellow", "orange", "brown"];
+				var crystals: Array = [];
+				for(var i in colors){
+					var myGrb:Greeble = new Greeble(colors[i], "home");
+					crystals.push(myGrb);
+					addChild(myGrb);
+				}
+				
 				//myGlowy7 = new Greeble("red");
-				addChild(myGlowy);
-				addChild(myGlowy2);
-				addChild(myGlowy3);
-				addChild(myGlowy4);
-				addChild(myGlowy5);
-				addChild(myGlowy6);
+			
 				removeChild(myShip);
 				addChild(myShip);
 				addChild(trainingTimer);
@@ -219,6 +233,9 @@ package
 				{
 					if (trainingTimer.timeDone == true)
 					{
+						for(var i in crystals){
+							crystals[i].stopCollecting();
+						}
 						tutOver.removeEventListener(TimerEvent.TIMER, tutorialOver);
 						addChild(commMan);
 						commText.text = "Looks like you've run out of fuel," + " head back to the lab to count the cargo." + "\n\n[Press any key to continue]";
@@ -232,18 +249,11 @@ package
 							stage.removeEventListener(KeyboardEvent.KEY_DOWN, exitTutorial);
 							removeChild(commMan);
 							removeChild(commText);
-							scoreArray.push(myGlowy.returnArray());
-							removeChild(myGlowy);
-							scoreArray.push(myGlowy2.returnArray());
-							removeChild(myGlowy2);
-							scoreArray.push(myGlowy3.returnArray());
-							removeChild(myGlowy3);
-							scoreArray.push(myGlowy4.returnArray());
-							removeChild(myGlowy4);
-							scoreArray.push(myGlowy5.returnArray());
-							removeChild(myGlowy5);
-							scoreArray.push(myGlowy6.returnArray());
-							removeChild(myGlowy6);
+							for(var i in crystals){
+								scoreArray.push(crystals[i].returnArray());
+								removeChild(crystals[i]);
+							}
+							
 							removeChild(trainingTimer);
 							removeChild(myShip);
 							removeChild(myBackground);
@@ -282,23 +292,17 @@ package
 			removeEventListener(MouseEvent.CLICK, changePlay);
 			var myScroller:Background = new Background(planet);
 			var scoreArr:Array = new Array();
-			var myGlowy:Greeble = new Greeble("red", planet);
-			var myGlowy2:Greeble = new Greeble("blue", planet);
-			var myGlowy3:Greeble = new Greeble("green", planet);
-			var myGlowy4:Greeble = new Greeble("yellow", planet);
-			var myGlowy5:Greeble = new Greeble("orange", planet);
-			var myGlowy6:Greeble = new Greeble("brown", planet);
-			//var myGlowy7: Greeble = new Greeble("blue");
+			
 			var myShip:starShip = new starShip(stage);
 			var myTimerBar:TimerBar = new TimerBar(planet);
 			addChild(myScroller);
-			addChild(myGlowy);
-			addChild(myGlowy2);
-			addChild(myGlowy3);
-			addChild(myGlowy4);
-			addChild(myGlowy5);
-			addChild(myGlowy6);
-			//addChild(myGlowy7);
+			var colors:Array = ["red", "blue", "green", "yellow", "orange", "brown"];
+			var crystals: Array = [];
+			for(var i in colors){
+				var myGrb:Greeble = new Greeble(colors[i], planet);
+				crystals.push(myGrb);
+				addChild(myGrb);
+			}
 			addChild(myShip);
 			addChild(myTimerBar);
 			var tutOver:Timer = new Timer(2000, 0);
@@ -309,6 +313,9 @@ package
 			{
 				if (myTimerBar.timeDone == true)
 				{
+					for(var i in crystals){
+						crystals[i].stopCollecting();
+					}
 					var commMan:commBox = new commBox();
 					commMan.x = 125;
 					commMan.y = 80;
@@ -331,28 +338,20 @@ package
 
 					function exitPlanet():void
 					{
-					TimeFlow.lockLazer = false;
-					removeEventListener(KeyboardEvent.KEY_DOWN, exitPlanet);
-					removeChild(commMan);
-					removeChild(commText);
-					scoreArray.push(myGlowy.returnArray());
-					removeChild(myGlowy);
-					scoreArray.push(myGlowy2.returnArray());
-					removeChild(myGlowy2);
-					scoreArray.push(myGlowy3.returnArray());
-					removeChild(myGlowy3);
-					scoreArray.push(myGlowy4.returnArray());
-					removeChild(myGlowy4);
-					scoreArray.push(myGlowy5.returnArray());
-					removeChild(myGlowy5);
-					scoreArray.push(myGlowy6.returnArray());
-					removeChild(myGlowy6);
-					removeChild(myTimerBar);
-					removeChild(myShip);
-					removeChild(myScroller);
-					tutOver.stop();
-					//initGalaxyMap();
-					setupCountSc(planet);
+						TimeFlow.lockLazer = false;
+						stage.removeEventListener(KeyboardEvent.KEY_DOWN, exitPlanet);
+						removeChild(commMan);
+						removeChild(commText);
+						for(var i in crystals){
+							scoreArray.push(crystals[i].returnArray());
+							removeChild(crystals[i]);
+						}
+						removeChild(myTimerBar);
+						removeChild(myShip);
+						removeChild(myScroller);
+						tutOver.stop();
+						//initGalaxyMap();
+						setupCountSc(planet);
 					}
 				}
 			}
@@ -783,69 +782,40 @@ package
 			var myComm:commBox = new commBox();
 			myComm.x = 125;
 			myComm.y = 30;
-			if (TimeFlow.getTutorialState)
-			{
-			addChild(myComm);
-			//dialogue portion
-			var commText:TextField = new TextField();
-			commText = helper_functions.formatText(commText, 8, 0x35BA00, "Courier");
-			commText.width = 250;
-			commText.height = 200;
-			commText.x = 356;
-			commText.y = 125;
-			commText.wordWrap = true;
-			commText.text = "Let's see how you did." + KEY_CONTINUE;
-			addChild(commText);
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, nextText);
-			
-			function nextText(e:KeyboardEvent):void
-			{
-				stage.removeEventListener(KeyboardEvent.KEY_DOWN, nextText);
-				stage.addEventListener(KeyboardEvent.KEY_DOWN, nextText2);
-				commText.text = "The crystals you collected are displayed along the top of this inventory screen." + KEY_CONTINUE;
-			}
-			
-			function nextText2(e:KeyboardEvent):void
-			{
-				stage.removeEventListener(KeyboardEvent.KEY_DOWN, nextText2);
-				stage.addEventListener(KeyboardEvent.KEY_DOWN, nextText3);
-				commText.text = "Any crystal that you didn’t pick up is displayed in the inventory display as a transparent icon." + KEY_CONTINUE;
-			
-			}
-			
-			function nextText3(e:KeyboardEvent):void
-			{
-				stage.removeEventListener(KeyboardEvent.KEY_DOWN, nextText3);
-				stage.addEventListener(KeyboardEvent.KEY_DOWN, nextText4);
-				commText.text = "Use the calculation display to count up your cargo." + KEY_CONTINUE;
-			}
-			function nextText4(e:KeyboardEvent):void
-			{
-				stage.addEventListener(KeyboardEvent.KEY_DOWN, nextText5);
-				stage.removeEventListener(KeyboardEvent.KEY_DOWN, nextText4);
-				commText.text = "Selection accuracy will tell us how good you were at picking up red crystals and avoiding the other colors..." + KEY_CONTINUE;
-			}
-			function nextText5(e:KeyboardEvent):void
-			{
-				stage.addEventListener(KeyboardEvent.KEY_DOWN, nextText7);
-				stage.removeEventListener(KeyboardEvent.KEY_DOWN, nextText5);
-				commText.text = "Completion accuracy will tell us if you left any red crystals behind." + KEY_CONTINUE;
-			
-			}
-			/**
-			function nextText6(e:KeyboardEvent):void
-			{
-				addEventListener(KeyboardEvent.KEY_DOWN, nextText7);
-				removeEventListener(KeyboardEvent.KEY_DOWN, nextText6);
-				commText.text = "Completion accuracy will tell us if you left any red Crystals behind that you could have picked up. Remember that the transparent crystals are the ones you missed." + KEY_CONTINUE;
-			}
-			*/
-			function nextText7(e:KeyboardEvent):void
-			{
-				stage.removeEventListener(KeyboardEvent.KEY_DOWN, nextText7);
-				removeChild(myComm);
-				removeChild(commText);
-			}
+			if (TimeFlow.getTutorialState){
+				addChild(myComm);
+				//dialogue portion
+				var commText:TextField = new TextField();
+				var currentText:int = 0;
+				commText = helper_functions.formatText(commText, 8, 0x35BA00, "Courier");
+				commText.width = 250;
+				commText.height = 200;
+				commText.x = 356;
+				commText.y = 125;
+				commText.wordWrap = true;
+				commText.text = "Let's see how you did." + KEY_CONTINUE;
+				addChild(commText);
+				
+				
+				var DialogText:Array = ["The crystals you collected are displayed along the top of this inventory screen." + KEY_CONTINUE,
+							  "Any crystal that you didn’t pick up is displayed in the inventory display as a transparent icon." + KEY_CONTINUE,
+							  "Use the calculation display to count up your cargo." + KEY_CONTINUE,
+							  "Selection accuracy will tell us how good you were at picking up red crystals and avoiding the other colors..." + KEY_CONTINUE,
+							  "Completion accuracy will tell us if you left any red crystals behind"  + KEY_CONTINUE];
+				
+				var nextText:Function = function(e:KeyboardEvent):void
+				{
+					currentText++;
+					if(currentText < DialogText.length){
+						commText.text = DialogText[currentText];
+					}else{
+						stage.removeEventListener(KeyboardEvent.KEY_DOWN, nextText);
+						removeChild(myComm);
+						removeChild(commText);
+					}
+				}
+					
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, nextText);
 			}
 		}
 		

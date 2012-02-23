@@ -75,7 +75,9 @@ package
 			myTimer.addEventListener(TimerEvent.TIMER, tweenBar, false, 0, true);
 			
 		}
-		
+		public function stopTween():void{
+			myTimer.stop();
+		}
 		private function setupPlanetDisp():void
 		{
 			if (colour == "blue")
@@ -103,19 +105,19 @@ package
 			timeLabel = helper_functions.formatText(timeLabel, 14, 0x00, "Verdana");
 			if (colour == "blue")
 			{
-				timeLabel.text = ("Blue Star");
+				timeLabel.text = ("Caerulea");
 			}
 			if (colour == "green")
 			{
-				timeLabel.text = ("Green Star");
+				timeLabel.text = ("Pratina");
 			}
 			if (colour == "home")
 			{
-				timeLabel.text = ("White Star");
+				timeLabel.text = ("Doma");
 			}
 			if (colour == "red")
 			{
-				timeLabel.text = ("Red Star");
+				timeLabel.text = ("Rubra");
 			}
 			
 			timeLabel.x = 646;

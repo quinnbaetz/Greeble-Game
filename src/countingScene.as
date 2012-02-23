@@ -258,7 +258,7 @@ package
 			container.addChild(compSc);
 			var compScFllw:TextField = new TextField();
 			helper_functions.formatText(compScFllw, 14, 0x00, "Verdana");
-			compScFllw.text = "How many of the red greebles did you collect?";
+			compScFllw.text = "How many of the red crystals did you collect?";
 			compScFllw.x = 200;
 			compScFllw.y = 256;
 			compScFllw.height = 20;
@@ -273,7 +273,7 @@ package
 			container.addChild(sellSc);
 			var sellScFllw:TextField = new TextField();
 			helper_functions.formatText(sellScFllw, 14, 0x00, "Verdana");
-			sellScFllw.text = "Of the greebles you collected, how many were red?";
+			sellScFllw.text = "Of the crystals you collected, how many were red?";
 			sellScFllw.width = 410;
 			sellScFllw.height = 20;
 			sellScFllw.x = 182;
@@ -295,9 +295,10 @@ package
 			container.addChild(redColl2);
 			var tRedOn:TextField = new TextField();
 			helper_functions.formatText(tRedOn, 14, 0x00, "Verdana");
-			tRedOn.text = "Total red" + "\n" + "on  planet: ";
+			tRedOn.text = "Total red on  planet:\n(Collected + Missed\nCrystals)";
 			tRedOn.x = 68;
-			tRedOn.y = 338;
+			tRedOn.width = 150;
+			tRedOn.y = 330;
 			container.addChild(tRedOn);
 			var tColl:TextField = new TextField();
 			helper_functions.formatText(tColl, 14, 0x00, "Verdana");
