@@ -59,12 +59,7 @@ package
 		private var myComm:commBox;
 		
 		private var scoreCnt:Array;
-		private var num_red:Number = 0;
-		private var num_green:Number = 0;
-		private var num_yellow:Number = 0;
-		private var num_blue:Number = 0;
-		private var num_orange:Number = 0;
-		private var num_brown:Number = 0;
+		private var num_colors:Object = {"red": 0, "green": 0, "yellow": 0, "blue": 0, "orange": 0, "brown": 0};
 		private var total_red:Number = 0;
 		private var total_collected:int = 0;
 		private var thisPlanet:String;
@@ -398,7 +393,7 @@ package
 		
 		private function chkScore_se():void
 		{
-			var top:Number = num_red;
+			var top:Number = num_colors['red'];
 			var bottom:Number = Number(total_collected);
 			var usrBottom:Number = Number(total_se.getLineText(0));
 			var usrTop:Number = Number(collected_se.getLineText(0));
@@ -460,7 +455,7 @@ package
 			//counts total reds
 			var usrTop:Number = Number(collected_cm.getLineText(0));
 			var usrBottom:Number = Number(total_cm.getLineText(0));
-			var top:Number = num_red;
+			var top:Number = num_colors['red'];
 			var bottom:Number = total_red;
 			var percent:Number = (top / bottom) * 100;
 			percent = Number(percent.toPrecision(2));
@@ -519,152 +514,45 @@ package
 		private function dispGreebleCargo():void
 		{
 			//make greebles here
-			var dispGrbArray:Array = new Array();
-			var i:int = 0;
-			var strtPos:int;
-			var newY:int = 40;
-			//display red
-			for (i = 1; i <= num_red; i++)
-			{
-				dispGrbArray[i] = new helper_functions.rd_grb();
-				dispGrbArray[i].x = i * 16;
-				if (i % 5 == 0)
-				{
-					dispGrbArray[i].y += (newY + 5);
+			var xPos:int = -1;
+			var yPos:int = 40;
+			var	i:int;
+			//create greeble, add it to scene and iterate to next position
+			var createGreeble:Function = function(color:String = 'red', loc:String = 'home'):Greeble{
+				var dispGrb:Greeble;
+				if(xPos>750){
+					xPos = -1;
+					yPos += 20;
 				}
-				else
-				{
-					dispGrbArray[i].y += (newY);
+				dispGrb = new Greeble(color, loc, "static");
+				xPos += 16;
+				if(i%5 === 0){
+					xPos += 10;
 				}
-				container.addChild(dispGrbArray[i]);
+				
+				dispGrb.x = xPos;
+				dispGrb.y = yPos;
+				container.addChild(dispGrb);
+				return dispGrb;
+				
 			}
-			//display green
-			strtPos = i;
-			for (i = 1; i <= num_green; i++)
-			{
-				dispGrbArray[i] = new helper_functions.grn_grb();
-				dispGrbArray[i].x = (strtPos + i) * 16;
-				if (i % 5 == 0)
-				{
-					dispGrbArray[i].y += (newY + 5);
-				}
-				else
-				{
-					dispGrbArray[i].y += (newY);
-				}
-				container.addChild(dispGrbArray[i]);
-			}
-			//display blue
-			strtPos = strtPos + i;
-			//move Y down one in display
 			
-			if (strtPos > 40)
-			{
-				newY = (newY + 20);
-				strtPos = 0;
+			//create greebles in the top section
+			for(var color:String in num_colors){
+				for(i = 0; i< num_colors[color]; i++){
+					createGreeble(color, 'home');
+				}
+				xPos += 16;
 			}
-			for (i = 1; i <= num_blue; i++)
+			
+			//jump to bottom section
+			yPos = 150;
+			xPos = -1;
+			//create greebles in bottom section and make transparent
+			for (i = 0; i < (total_red - num_colors['red']); i++)
 			{
-				dispGrbArray[i] = new helper_functions.bl_grb();
-				dispGrbArray[i].x = (strtPos + i) * 16;
-				if (i % 5 == 0)
-				{
-					dispGrbArray[i].y += (newY + 5);
-				}
-				else
-				{
-					dispGrbArray[i].y += (newY);
-				}
-				container.addChild(dispGrbArray[i]);
-			}
-			//display yellow
-			strtPos = strtPos + i;
-			//trace(strtPos);
-			//move Y down one in display
-			if (strtPos > 40)
-			{
-				newY = (newY + 20);
-				strtPos = 0;
-			}
-			for (i = 1; i <= num_yellow; i++)
-			{
-				dispGrbArray[i] = new helper_functions.yllw_grb();
-				dispGrbArray[i].x = (strtPos + i) * 16;
-				if (i % 5 == 0)
-				{
-					dispGrbArray[i].y += (newY + 5);
-				}
-				else
-				{
-					dispGrbArray[i].y += (newY);
-				}
-				container.addChild(dispGrbArray[i]);
-			}
-			//display orange
-			strtPos = strtPos + i;
-			//trace(strtPos);
-			//move Y down one in display
-			if (strtPos > 40)
-			{
-				newY = (newY + 20);
-				strtPos = 0;
-			}
-			for (i = 1; i <= num_orange; i++)
-			{
-				dispGrbArray[i] = new helper_functions.orng_grb();
-				dispGrbArray[i].x = (strtPos + i) * 16;
-				if (i % 5 == 0)
-				{
-					dispGrbArray[i].y += (newY + 5);
-				}
-				else
-				{
-					dispGrbArray[i].y += (newY);
-				}
-				container.addChild(dispGrbArray[i]);
-			}
-			//display brown
-			strtPos = strtPos + i;
-			//trace(strtPos);
-			//move Y down one in display
-			if (strtPos > 40)
-			{
-				newY = (newY + 20);
-				strtPos = 0;
-			}
-			for (i = 1; i <= num_brown; i++)
-			{
-				dispGrbArray[i] = new helper_functions.brwn_grb();
-				dispGrbArray[i].x = (strtPos + i) * 16;
-				if (i % 5 == 0)
-				{ 
-					dispGrbArray[i].y += (newY + 5);
-				}
-				else
-				{
-					dispGrbArray[i].y += (newY);
-				}
-				container.addChild(dispGrbArray[i]);
-			}
-			//display left behind greebles
-			strtPos = 0;
-			//trace(strtPos);
-			//move Y down into "missed display"
-			newY = 150;
-			for (i = 1; i <= (total_red - num_red); i++)
-			{
-				dispGrbArray[i] = new helper_functions.rd_grb();
-				dispGrbArray[i].alpha = .5;
-				dispGrbArray[i].x = (strtPos + i) * 16;
-				if (i % 5 == 0)
-				{
-					dispGrbArray[i].y += (newY + 5);
-				}
-				else
-				{
-					dispGrbArray[i].y += (newY);
-				}
-				container.addChild(dispGrbArray[i]);
+				var dispGrb:Greeble = createGreeble('red', 'home');
+				dispGrb.alpha = .5;
 			}
 		}
 		
@@ -687,31 +575,7 @@ package
 				{
 					//trace(firstArray.pop());
 					greebleColor = firstArray.pop();
-					if (greebleColor == "red")
-					{
-						num_red++;
-					}
-					if (greebleColor == "blue")
-					{
-						num_blue++;
-					}
-					if (greebleColor == "green")
-					{
-						num_green++;
-					}
-					if (greebleColor == "yellow")
-					{
-						num_yellow++;
-					}
-					if (greebleColor == "orange")
-					{
-						num_orange++;
-					}
-					if (greebleColor == "brown")
-					{
-						num_brown++;
-					}
-					
+					num_colors[greebleColor]++;
 				}
 			}
 		}

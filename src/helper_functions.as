@@ -6,6 +6,7 @@ package
 	import flash.text.*;
 	import flash.ui.KeyLocation;
 	import flash.ui.Keyboard;
+	import flash.external.ExternalInterface;
 	[SWF(width="800", height="600", backgroundColor="0x00")]
 	/**
 	 * ...
@@ -167,6 +168,20 @@ package
 				return "yellow";
 			}
 			return "";
+		}
+		public static function fTrace(...args):void{
+			try{
+				if(ExternalInterface.available){
+					for(var i:Object in args){
+						trace(args[i]);
+						ExternalInterface.call("console.log", args[i]);
+					}
+				}
+			}catch(e:Error){
+				for(var k:Object in args){
+					trace(args[k]);
+				}
+			}
 		}
 	}
 	
