@@ -181,7 +181,7 @@ package
 			function mouseSpeach(e:KeyboardEvent):void
 			{
 				stage.removeEventListener(KeyboardEvent.KEY_DOWN, mouseSpeach);
-				removeChild(boxOutline);
+				removeChild(plBoxOutline);
 				plBoxOutline = new Sprite();
 				helper_functions.drawBox(plBoxOutline, 0xFFFFFF, 80, 25, 0);
 				plBoxOutline.x = 645;
@@ -213,7 +213,7 @@ package
 				
 				var colors:Array = ["red", "blue", "green", "yellow", "orange", "brown"];
 				var crystals: Array = [];
-				for(var i in colors){
+				for(var i:String in colors){
 					var myGrb:Greeble = new Greeble(colors[i], "home");
 					crystals.push(myGrb);
 					addChild(myGrb);
@@ -441,7 +441,7 @@ package
 			hScore.y = 158;
 			hScore.width = 300;
 			hScore.height = 50;
-			hScore.text =  TimeFlow.getHomeScore + "                            " + TimeFlow.getHomeScoreC;
+			hScore.text =  TimeFlow.getHomeScoreC + "                            " + TimeFlow.getHomeScore;
 
 			var gBox:Bitmap = new greenSc();
 			gBox.x = 400;
@@ -452,7 +452,7 @@ package
 			gScore.y = 158;
 			gScore.width = 300;
 			gScore.height = 50;
-			gScore.text = TimeFlow.getGreenScore + "                            " + TimeFlow.getGreenScoreC;
+			gScore.text = TimeFlow.getGreenScoreC + "                            " + TimeFlow.getGreenScore;
 
 			var bBox:Bitmap = new blueSc();
 			bBox.x = 00;
@@ -463,7 +463,7 @@ package
 			bScore.y = 328;
 			bScore.width = 300;
 			bScore.height = 50;
-			bScore.text = TimeFlow.getBlueScore + "                            " + TimeFlow.getBlueScoreC;
+			bScore.text = TimeFlow.getBlueScoreC + "                            " + TimeFlow.getBlueScore;
 
 			var rBox:Bitmap = new redSc();
 			rBox.x = 400;
@@ -474,7 +474,7 @@ package
 			rScore.y = 328;
 			rScore.width = 300;
 			rScore.height = 50;
-			rScore.text = TimeFlow.getRedScore + "                            " + TimeFlow.getRedScoreC;
+			rScore.text = TimeFlow.getRedScoreC + "                            " + TimeFlow.getRedScore;
 
 			/*makeScoreBox(hBox);
 			makeScoreBox(gBox);
